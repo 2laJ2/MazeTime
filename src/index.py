@@ -7,7 +7,7 @@ def main():
        
     letsBegin()
 
-    maze1 = Maze()
+    maze1 = Maze(1)
 
     print(f"{maze1.viesti()}")
 
