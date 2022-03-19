@@ -12,5 +12,5 @@ class TestMain(unittest.TestCase):
     def test_labyrintti_palauttaa_kaytetyn_algoritmimetodin(self):
         self.assertEqual(self.maze.algo1(), "That is a beginner algorithm.")
 
-    def test_labyrintin_luomisessa_käytetään_haluttua_metodia(self):
+    def test_labyrintin_luomisessa_kaytetaan_haluttua_metodia(self):
         self.assertEqual(self.maze.algo2(), "That is a bit more complex stuff.")
