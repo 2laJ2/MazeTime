@@ -1,6 +1,6 @@
 [MASTER]
 
-ignore=tests,index.py
+ignore=tests,index.py, pygamemaze.py
 load-plugins=pylint.extensions.mccabe
 
 [MESSAGE CONTROL]

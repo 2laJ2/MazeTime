@@ -8,6 +8,7 @@ authors = ["2laJ2 <tuulajakobsson@hotmail.com>"]
 python = "^3.8"
 pytest = "^7.1.1"
 pylint = "^2.12.2"
+pygame = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
 coverage = "^6.3.2"
