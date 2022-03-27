@@ -23,7 +23,6 @@ PURPLE = (255, 0, 255)
 
 # initalise Pygame
 pygame.init()
-pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python Maze Generator")
 clock = pygame.time.Clock()
