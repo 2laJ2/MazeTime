@@ -23,6 +23,7 @@ PURPLE = (255, 0, 255)
 
 # initalise Pygame
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python Maze Generator")
 clock = pygame.time.Clock()
@@ -35,6 +36,7 @@ grid = []
 visited = []
 stack = []
 solution = {}
+stack_current = []
 
 # build the grid
 def build_grid(x, y, w):
@@ -78,6 +80,10 @@ def single_purple_cell( x, y):
     pygame.draw.rect(screen, PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)         # draw a single width cell
     pygame.display.update()
 
+def single_yellow_cell( x, y):
+    pygame.draw.rect(screen, YELLOW, (x + 1, y + 1, w - 2, w - 2), 0)         # draw a single width cell
+    pygame.display.update()
+
 def backtracking_cell(x, y):
     pygame.draw.rect(screen, PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)
     pygame.display.update()                                                   # has visited cell
@@ -89,59 +95,7 @@ def solution_cell(x,y):
 
 # depth-first search backtracking; iterative implementation
 def carve_out_maze(x,y):
-    single_cell(x, y)                                              # starting positing of maze
-    stack.append((x,y))                                            # place starting cell into stack
-    visited.append((x,y))                                          # add starting cell to visited list
-    while len(stack) > 0:                                          # loop until stack is empty
-        time.sleep(.01)                                            # slow program now a bit
-        cell = []
-        if (x + w, y) not in visited and (x + w, y) in grid:       # right cell available?
-            cell.append("right")                                   # if yes add to cell list
-
-        if (x - w, y) not in visited and (x - w, y) in grid:       # left cell available?
-            cell.append("left")
-
-        if (x , y + w) not in visited and (x , y + w) in grid:     # down cell available?
-            cell.append("down")
-
-        if (x, y - w) not in visited and (x , y - w) in grid:      # up cell available?
-            cell.append("up")
-
-        if len(cell) > 0:                                          # check to see if cell list is empty
-            cell_chosen = (random.choice(cell))                    # select one of the cell randomly
-
-            if cell_chosen == "right":           # if this cell has been chosen
-                push_right(x, y)                 # call push_right function
-                solution[(x + w, y)] = x, y      # solution = dictionary key = new cell, other = current cell
-                x = x + w                        # make this cell the current cell
-                visited.append((x, y))           # add to visited list
-                stack.append((x, y))             # place current cell on to stack
-
-            elif cell_chosen == "left":
-                push_left(x, y)
-                solution[(x - w, y)] = x, y
-                x = x - w
-                visited.append((x, y))
-                stack.append((x, y))
-
-            elif cell_chosen == "down":
-                push_down(x, y)
-                solution[(x , y + w)] = x, y
-                y = y + w
-                visited.append((x, y))
-                stack.append((x, y))
-
-            elif cell_chosen == "up":
-                push_up(x, y)
-                solution[(x , y - w)] = x, y
-                y = y - w
-                visited.append((x, y))
-                stack.append((x, y))
-        else:
-            x, y = stack.pop()
-            single_cell(x, y)
-            time.sleep(.05)
-            backtracking_cell(x, y)
+    pass
 
 # Aldous-Broder algorithm
 def carve_AB_maze(seedling):
@@ -196,18 +150,143 @@ def carve_AB_maze(seedling):
                 visits += 1
             y = y - w
 
-def plot_route_back(x,y):
-    solution_cell(x, y)         # solution list contains all the coordinates to route back to start
-    while (x, y) != (20,20):    # loop until cell position == start position
-        x, y = solution[x, y]   # "key value" now becomes the new key
-        solution_cell(x, y)     # animate route back
-        time.sleep(.01)
+def reverse_stack_builder(x_max, y_max):
+    stack = []
+    for i in range(1, x_max+1):
+        x = i*w
+        for j in range(1, y_max+1):
+            y = j*w
+            stack.append((x, y))
+    return stack
 
+def wilson_path(solution, x, y, a, b):
+    single_purple_cell(a, b)
+    for cell in solution:# käydään uudelleen reitti läpi ja liitetään se valmiiseen labyrinttiin
+        if  cell == "right":
+            push_right(a, b)
+            a += w
+        if cell == "left":
+            push_left(a, b)
+            a -=w
+        if cell == "down":
+            push_down(a, b)
+            b += w
+        if cell == "up":
+            push_up(a, b)
+            b -= w
+    return []
+
+# Wilson algorithm
+def carve_Wilson_maze(seedling):
+    seed(seedling)
+    x = (randint(0, w-1))*20
+    y = (randint(0, w-1))*20
+    a = x
+    b = y
+    solution = []
+    stack = []
+    counter = 0
+    visited = reverse_stack_builder(20, 20)# labyrintin koko x, y
+    while len(visited) > 0:# labyrintin ruutujen lukumäärä alussa 400
+                           # jos haluat tarkastella labyrinttia, pysäytä viimeiseen ruutuun laittamalla 0:n tilalle 1
+        if (x, y) in visited:# jos ruutu on vapaa 
+            visited.remove((x, y))# poista vapaiden ruutujen luettelosta
+            stack.append((x, y))# lisää nykyiseen polkuun
+       
+        single_yellow_cell(x, y)
+        time.sleep(0.1)
+        cell = []
+            
+        if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin
+            cell.append("right")
+
+        if (x - w, y) not in stack and (x - w, y) in grid:
+            cell.append("left")
+
+        if (x , y + w) not in stack and (x , y + w) in grid:
+            cell.append("down")
+
+        if (x , y - w) not in stack and (x , y - w) in grid:
+            cell.append("up")
+
+        if len(cell)>0:
+            cell_chosen = (random.choice(cell))
+            
+            if  cell_chosen == "right":
+                if (x + w, y) not in visited:# on käyty aiemmin
+                    solution.append(cell_chosen)#
+                    a, b = (stack[0])
+                    solution = wilson_path(solution, x, y, a, b)# liittää polun labyrinttiin, tyhjentää polun
+                    stack = []
+                    x, y = (random.choice(visited))
+                    a, b = x, y
+                elif (x + w, y) in visited:# ei ole käyty aiemmin
+                    x += w
+                    visited.remove((x, y))
+                    stack.append((x, y))
+                    solution.append(cell_chosen)# lisätään ruutu reittiin
+                    
+            elif cell_chosen == "left":
+                if (x - w, y) not in visited:
+                    solution.append(cell_chosen)
+                    a, b = (stack[0])
+                    solution = wilson_path(solution, x, y, a, b)
+                    stack = []
+                    x, y = (random.choice(visited))
+                    a, b = x, y
+                elif (x - w, y) in visited:
+                    x -= w
+                    visited.remove((x, y)) 
+                    stack.append((x, y))
+                    solution.append(cell_chosen)
+                    
+            elif cell_chosen == "down":
+                if (x, y + w) not in visited:
+                    solution.append(cell_chosen)
+                    a, b = (stack[0])
+                    solution = wilson_path(solution, x, y, a, b)
+                    stack = []
+                    x, y = (random.choice(visited))
+                    a, b = x, y
+                elif (x, y + w) in visited:
+                    y += w
+                    visited.remove((x, y))
+                    stack.append((x, y))
+                    solution.append(cell_chosen)#
+                    
+            elif cell_chosen == "up":
+                if (x, y - w) not in visited:
+                    solution.append(cell_chosen)
+                    a, b = (stack[0])
+                    solution = wilson_path(solution, x, y, a, b)
+                    stack = []
+                    x, y = (random.choice(visited))
+                    a, b = x, y
+                elif (x, y - w) in visited:
+                    y -= w
+                    visited.remove((x, y))
+                    stack.append((x, y))
+                    solution.append(cell_chosen)#
+                    
+        elif len(cell)==0: 
+            
+            if counter == 1:
+                x, y = (random.choice(visited))# jos tullaan nykyisen polun muodostamaan umpikujaan
+                for cell in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
+                    visited.append(cell)
+                stack = []# tyhjennetään polku
+                solution = []# tyhjennetään piirrettävä reitti
+                solution.append((x, y))# lisätään piirrettävään polkuun nykyinen ruutu
+            if counter == 0:
+                solution = wilson_path(solution, x, y, a, b)
+                stack = []
+                x, y = (random.choice(visited))# jos tullaan nykyisen polun muodostamaan umpikujaan
+                solution.append((x,y))
+                counter += 1            
 
 x, y = 20, 20              # starting position of grid
 build_grid(40, 0, w)       # 1st argument=x value, 2nd argument=y value, 3rd argument=width of cell
-#carve_out_maze(x,y)       # call build the maze  function
-#plot_route_back(400, 400) # call the plot solution function
+#carve_Wilson_maze(0)
 carve_AB_maze(0)           # luo Aldous-Broderin algoritmilla seed-arvolla 0 labyrintin, jota ei
                            # voi ratkaista valmiin metodin avulla, koska lähtöpiste vaihtelee
 
