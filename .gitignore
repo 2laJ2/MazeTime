@@ -6,3 +6,5 @@ __pycache__
 *$py.class
 .coverage
 htmlcov
+src/__pycache__/
+src/tests/__pycache__/
