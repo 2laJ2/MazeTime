@@ -40,6 +40,7 @@ class Maze():
         pygame.display.set_caption("Python Labyrintti")
         self.clock = pygame.time.Clock()
         self.x, self.y = 20, 20
+        #self.main_menu()
         ###### pygame loop #######
         RUNNING = True
         while RUNNING:
@@ -99,15 +100,118 @@ class Maze():
 
     def backtracking_cell(self, x, y):
         pygame.draw.rect(self.screen, PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)
-        pygame.display.update()                                                   # has visited cell
+        pygame.display.update()                                                        # has visited cell
+
+    def backtracking_blue_cell(self, x, y):
+        pygame.draw.rect(self.screen, BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
+        pygame.display.update()
 
     def solution_cell(self, x,y):
         pygame.draw.rect(self.screen, YELLOW, (x + 8, y + 8, 5, 5), 0)      # used to show the solution
         pygame.display.update()                                        # has visited cell
 
     # Growing Tree algorithm
-    def carve_mysteerimaze(self, x,y):
-        pass
+    def carve_mysteerimaze(self, x, y, number):
+        option = number
+        self.single_cell(x, y)
+        stack.append((x,y))
+        visited.append((x,y))
+        while len(stack) > 0:
+            time.sleep(.07)
+            cell = []
+            if (x + w, y) not in visited and (x + w, y) in grid:
+                cell.append("right")
+
+            if (x - w, y) not in visited and (x - w, y) in grid:
+                cell.append("left")
+
+            if (x , y + w) not in visited and (x , y + w) in grid:
+                cell.append("down")
+
+            if (x, y - w) not in visited and (x , y - w) in grid:
+                cell.append("up")
+
+            if len(cell) > 0:
+                cell_chosen = (random.choice(cell))
+
+                if cell_chosen == "right":
+                    self.push_right(x, y)
+                    solution[(x + w, y)] = x, y
+                    x = x + w
+                    visited.append((x, y))
+                    stack.append((x, y))
+
+                elif cell_chosen == "left":
+                    self.push_left(x, y)
+                    solution[(x - w, y)] = x, y
+                    x = x - w
+                    visited.append((x, y))
+                    stack.append((x, y))
+
+                elif cell_chosen == "down":
+                    self.push_down(x, y)
+                    solution[(x , y + w)] = x, y
+                    y = y + w
+                    visited.append((x, y))
+                    stack.append((x, y))
+
+                elif cell_chosen == "up":
+                    self.push_up(x, y)
+                    solution[(x , y - w)] = x, y
+                    y = y - w
+                    visited.append((x, y))
+                    stack.append((x, y))
+
+            else:
+
+                #if option == 1:# valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
+#                    x, y = stack.pop()# algoritmi muuttuu recursive backtracking -algoritmiksi
+ #                   self.single_yellow_cell(x, y)
+  #                  time.sleep(.05)
+   #                 self.backtracking_cell(x, y)
+    #
+            #    elif option == 2:# poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
+                if len(stack) > 0:
+                    stack.remove((x, y))
+                    if len(stack)>0:
+                        x, y = (random.choice(stack))
+                        self.single_cell(x, y)
+                        time.sleep(.05)
+                        self.backtracking_cell(x, y)
+
+            #    elif option == 3:# poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
+            #    if len(stack) > 0:
+            #        stack.remove((x, y))
+            #        if len(stack) > 0:
+            #            x, y = stack[0]
+            #            self.single_cell(x, y)
+            #            time.sleep(.05)
+            #            self.backtracking_cell(x, y)
+
+            #    elif option == 4:# poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
+            #    if len(stack) > 0:
+            #        choice = (randint(1, 5))
+            #        if choice == 1:
+            #            x, y = (random.choice(stack))    
+            #        else:
+            #            x, y = stack.pop()
+            #        self.single_cell(x, y)
+            #        time.sleep(.05)
+            #        self.backtracking_cell(x, y)
+
+            #    elif option == 5:# poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
+            #    if len(stack) > 0:
+            #        stack.remove((x, y))
+            #        length = len(stack)
+            #        latest = len(stack)//10
+            #        list = []
+            #        for i in range(latest, length):
+            #            list.append((stack[i]))
+            #        if len(list) > 0:
+            #            x, y = (random.choice(list))
+            #        self.single_cell(x, y)
+            #        time.sleep(.05)
+            #        self.backtracking_cell(x, y)
 
     # Aldous-Broder algorithm
     def carve_AB_maze(self, seedling): # luo seed-arvolla 0 labyrintin
@@ -312,9 +416,20 @@ class Maze():
             print("Nähdään taas!")
             self.event == pygame.QUIT
         elif resp == '1':
+            print("Valitse luku yhdestä viiteen")
+            resp=None
+            option = 0
+            while resp not in ['1', '2', '3', '4', '5']:
+                resp = str(input("Anna numero\n")).upper().strip()
+            if resp == 1: option = 1
+            if resp == 2: option = 2
+            if resp == 3: option = 3
+            if resp == 4: option = 4
+            if resp == 5: option = 5
             self.reset_grid()
             self.build_grid(40, 0, w)
-            # carve_mysteerimaze(0)
+            x, y = 20, 20
+            self.carve_mysteerimaze(x, y, option)
         elif resp == '2':
             self.reset_grid()
             self.build_grid(40, 0, w)

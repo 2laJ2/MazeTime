@@ -10,9 +10,13 @@ Pyrin refraktoimaan koodia siten, että Maze-luokalla on konstruktori, joka luo 
 
 Refraktorointiin, taustamateriaalien etsintään ja kahden apumetodeja testaavan testin tekemiseen kului 5 tuntia.
 
-Testausdokumentin ja viikkoraportin päivittämiseen kului noin puoli tuntia. Työtunteja kertyi viikon aikana yhteensä noin 9.
+Testausdokumentin ja viikkoraportin päivittämiseen kului noin puoli tuntia. 
 
-Seuraavaksi pyrin muokkaamaan testejä ja luokkarakennetta siten, että voin testata labyrintin algoritmilla rakentavien metodien toimivuutta. Yksi mahdollisuus olisi ehkä luoda minikokoinen muutaman ruudun labyrintti, jonka algoritmi aloittaa aina tietystä ruudusta ja etenee aina algoritmin mukaisessa järjestyksessä.
+Kirjoitin alustavan toteutuksen Growing Tree -algoritmille viidelle eri toteutustavalle. Algoritmin kuvaus löytyy [_täältä_]((http://www.astrolog.org/labyrnth/algrithm.htm)). Metodi on vielä hieman keskeneräinen. Kaikki viisi erilaista toteutustapaa toimivat erikseen, mutta toistaiseksi ei ole mahdollista valita niistä kuin yksi, eli se jota ei ole kommentoitu pois. Huolimatta siitä, minkä luvun 1-5 käyttäjä valitsee, ohjelma toistaa aina saman (sen, jota ei ole kommentoitu pois risuaidoilla). Metodin kirjoittamiseen on toistaiseksi mennessä kulunut 3 tuntia.
+
+Työtunteja kertyi viikon aikana yhteensä noin 12.
+
+Seuraavaksi kirjoitan Growing Tree -algoritmia käyttävän metodin valmiiksi, minkä jälkeen pyrin muokkaamaan testejä ja luokkarakennetta siten, että voin testata labyrintin algoritmilla rakentavien metodien toimivuutta. Yksi mahdollisuus olisi ehkä luoda minikokoinen muutaman ruudun labyrintti, jonka algoritmi aloittaa aina tietystä ruudusta ja etenee aina algoritmin mukaisessa järjestyksessä.
 
 Kolmantena algoritmina on tarkoitus toteuttaa [Growing Tree Algorithm](http://www.astrolog.org/labyrnth/algrithm.htm), koska sekä Aldous-Broderin että Wilsonin algoritmit luovat rakenteeltaan yhtenäisen labyrintin, mutta growing tree -algoritmilla voi luoda rakenteellisesti erilaisia labyrintteja. Erilaisten rakenteiden luominen ja niiden ottaminen mukaan vertailuun voisi olla seuraava vaihe.
 
