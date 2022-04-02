@@ -8,6 +8,11 @@ Testauksessa on ongelmaksi noussut se, että koska sovellus käyttää visualiso
 
 Toistaiseksi testien ajaminen onnistuu käynnistämällä virtuaalitila juurikansiosta antamalla komentorivillä komento
 ```
+poetry shell
+```
+ja tämän jälkeen ajamalla testit komennolla
+
+```
 pytest src
 ```
 Tämän jälkeen ohjelma käynnistää Pygame-ikkunan. Kun käyttäjä klikkaa oikean yläkulman punaista palloa, jossa on rasti, yhden kerran jokaista testiä kohden, poetry ajaa jokaisen klikkauksen jälkeen yhden testin. Kun kaikki testit on tehty, testitulokset näkyvät komentorivillä.

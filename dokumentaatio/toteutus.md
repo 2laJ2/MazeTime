@@ -1,5 +1,5 @@
 # Toteutus
-Ohjelma on toteutettu Pythonia ja visualisoinnissa on käytetty Pythonin Pygame-kirjastoa.
+Ohjelma on toteutettu Pythonilla ja visualisoinnissa on käytetty Pythonin Pygame-kirjastoa.
 
 ## Lähteet
 - [Video: Python Maxe Generator Program, Davis MT](https://www.youtube.com/watch?v=Xthh4SEMA2o)
