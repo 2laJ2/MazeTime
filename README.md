@@ -26,6 +26,8 @@ Ohjelman käynnistys onnistuu komentoriviltä projektin juurihakemistossa, miss�
 ```
 python3 src/index.py
 ```
+ja klikkaamalla kerran avautuvan Pygame-ikkunan oikean yläkulman punaista palloa.
+
 #### Testaus
 
 Testit suoritetaan komentoriviltä projektin juurihakemistossa siirtymällä ensin virtuaaliympäristöön komennolla
@@ -38,6 +40,8 @@ Tämän jälkeen koodin toimintaa tutkivien testien suoritus onnistuu komennolla
 ```
 pytest
 ```
+ja klikkaamalla avautuvan Pygame-ikkunan oikean yläkulman punaista palloa kerran kutakin testia kohden.
+
 Koodin ulkoasun laatua tarkastelevien testien suoritus onnistuu komennolla
 
 ```
