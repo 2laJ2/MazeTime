@@ -137,7 +137,7 @@ class Maze():
                 self.backtracking_cell(x, y)
         return stack, x, y
 
-    def usually_last_occasionally_random(self, stack, x, y):
+    def gt_usually_last_occasionally_random(self, stack, x, y):
         if len(stack) > 0:# poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
             choice = (randint(1, 5))
             if choice == 1:
@@ -169,6 +169,7 @@ class Maze():
         self.single_cell(x, y)
         stack = []
         stack.append((x,y))
+        visited = []
         visited.append((x,y))
         while len(stack) > 0:
             time.sleep(.07)
@@ -217,19 +218,17 @@ class Maze():
                     stack.append((x, y))
 
             else:
-
-                stack, x, y = self.gt_always_last(stack, x, y)
-                
-            #    stack, x, y = self.gt_always_last(stack, x, y)# option 1
-
-            #    stack, x, y = self.gt_always_random(stack, x, y)# option 2
-
-            #    stack, x, y = self.gt_always_first(stack, x, y)# option 3
-
-            #    stack, x, y = self.gt_usually_last_occasionally_random(stack, x, y)# option 4
-            
-            #    stack, x, y = self.gt_random_among_last_ones(stack, x, y)# option 5
-
+                if option == '1':
+                    stack, x, y = self.gt_always_last(stack, x, y)
+                if option == '2':
+                    stack, x, y = self.gt_always_random(stack, x, y)
+                if option == '3':
+                    stack, x, y = self.gt_always_first(stack, x, y)
+                if option == '4':
+                    stack, x, y = self.gt_usually_last_occasionally_random(stack, x, y)
+                if option == '5':
+                    stack, x, y = self.gt_random_among_last_ones(stack, x, y)
+          
     # Aldous-Broder algorithm
     def carve_AB_maze(self, seedling): # luo seed-arvolla 0 labyrintin
         seed(seedling)
@@ -435,18 +434,12 @@ class Maze():
         elif resp == '1':
             print("Valitse luku yhdestä viiteen")
             resp=None
-            option = 0
             while resp not in ['1', '2', '3', '4', '5']:
                 resp = str(input("Anna numero\n")).upper().strip()
-            if resp == 1: option = 1
-            if resp == 2: option = 2
-            if resp == 3: option = 3
-            if resp == 4: option = 4
-            if resp == 5: option = 5
             self.reset_grid()
             self.build_grid(40, 0, w)
             x, y = 20, 20
-            self.carve_mysteerimaze(x, y, option)
+            self.carve_mysteerimaze(x, y, resp)
         elif resp == '2':
             self.reset_grid()
             self.build_grid(40, 0, w)
