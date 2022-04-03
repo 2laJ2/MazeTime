@@ -17,6 +17,7 @@
 - [Viikkoraportti 1](/dokumentaatio/viikkoraportit/viikko1.md)
 - [Viikkoraportti 2](/dokumentaatio/viikkoraportit/viikko2.md)
 - [Viikkoraportti 3](/dokumentaatio/viikkoraportit/viikko3.md)
+- [Viikkoraportti 4](/dokumentaatio/viikkoraportit/viikko4.md)
 
 ### Komentorivitoiminnot
 
