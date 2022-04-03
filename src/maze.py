@@ -110,10 +110,64 @@ class Maze():
         pygame.draw.rect(self.screen, YELLOW, (x + 8, y + 8, 5, 5), 0)      # used to show the solution
         pygame.display.update()                                        # has visited cell
 
+    def gt_always_last(self, stack, x, y):# valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
+        x, y = stack.pop()# algoritmi muuttuu recursive backtracking -algoritmiksi
+        self.single_yellow_cell(x, y)
+        time.sleep(.05)
+        self.backtracking_cell(x, y)
+        return stack, x, y
+
+    def gt_always_random(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
+        if len(stack) > 0:
+            stack.remove((x, y))
+            if len(stack)>0:
+                x, y = (random.choice(stack))
+                self.single_cell(x, y)
+                time.sleep(.05)
+                self.backtracking_cell(x, y) 
+        return stack, x, y          
+
+    def gt_always_first(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
+        if len(stack) > 0:
+            stack.remove((x, y))
+            if len(stack) > 0:
+                x, y = stack[0]
+                self.single_cell(x, y)
+                time.sleep(.05)
+                self.backtracking_cell(x, y)
+        return stack, x, y
+
+    def usually_last_occasionally_random(self, stack, x, y):
+        if len(stack) > 0:# poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
+            choice = (randint(1, 5))
+            if choice == 1:
+                x, y = (random.choice(stack))    
+            else:
+                x, y = stack.pop()
+                self.single_cell(x, y)
+                time.sleep(.05)
+                self.backtracking_cell(x, y)
+        return stack, x, y
+
+    def gt_random_among_last_ones(self, stack, x, y):# poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
+        if len(stack) > 0:
+            stack.remove((x, y))
+            length = len(stack)
+            latest = len(stack)//10
+            list = []
+            for i in range(latest, length):
+                list.append((stack[i]))
+                if len(list) > 0:
+                    x, y = (random.choice(list))
+            self.single_cell(x, y)
+            time.sleep(.05)
+            self.backtracking_cell(x, y)
+        return stack, x, y
+
     # Growing Tree algorithm
-    def carve_mysteerimaze(self, x, y, number):
-        option = number
+    def carve_mysteerimaze(self, x, y, option):
         self.single_cell(x, y)
+        stack = []
         stack.append((x,y))
         visited.append((x,y))
         while len(stack) > 0:
@@ -164,54 +218,17 @@ class Maze():
 
             else:
 
-                #if option == 1:# valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
-#                    x, y = stack.pop()# algoritmi muuttuu recursive backtracking -algoritmiksi
- #                   self.single_yellow_cell(x, y)
-  #                  time.sleep(.05)
-   #                 self.backtracking_cell(x, y)
-    #
-            #    elif option == 2:# poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
-                if len(stack) > 0:
-                    stack.remove((x, y))
-                    if len(stack)>0:
-                        x, y = (random.choice(stack))
-                        self.single_cell(x, y)
-                        time.sleep(.05)
-                        self.backtracking_cell(x, y)
+                stack, x, y = self.gt_always_last(stack, x, y)
+                
+            #    stack, x, y = self.gt_always_last(stack, x, y)# option 1
 
-            #    elif option == 3:# poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
-            #    if len(stack) > 0:
-            #        stack.remove((x, y))
-            #        if len(stack) > 0:
-            #            x, y = stack[0]
-            #            self.single_cell(x, y)
-            #            time.sleep(.05)
-            #            self.backtracking_cell(x, y)
+            #    stack, x, y = self.gt_always_random(stack, x, y)# option 2
 
-            #    elif option == 4:# poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
-            #    if len(stack) > 0:
-            #        choice = (randint(1, 5))
-            #        if choice == 1:
-            #            x, y = (random.choice(stack))    
-            #        else:
-            #            x, y = stack.pop()
-            #        self.single_cell(x, y)
-            #        time.sleep(.05)
-            #        self.backtracking_cell(x, y)
+            #    stack, x, y = self.gt_always_first(stack, x, y)# option 3
 
-            #    elif option == 5:# poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
-            #    if len(stack) > 0:
-            #        stack.remove((x, y))
-            #        length = len(stack)
-            #        latest = len(stack)//10
-            #        list = []
-            #        for i in range(latest, length):
-            #            list.append((stack[i]))
-            #        if len(list) > 0:
-            #            x, y = (random.choice(list))
-            #        self.single_cell(x, y)
-            #        time.sleep(.05)
-            #        self.backtracking_cell(x, y)
+            #    stack, x, y = self.gt_usually_last_occasionally_random(stack, x, y)# option 4
+            
+            #    stack, x, y = self.gt_random_among_last_ones(stack, x, y)# option 5
 
     # Aldous-Broder algorithm
     def carve_AB_maze(self, seedling): # luo seed-arvolla 0 labyrintin
