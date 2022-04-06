@@ -40,7 +40,7 @@ class Maze():
         pygame.display.set_caption("Python Labyrintti")
         self.clock = pygame.time.Clock()
         self.x, self.y = 20, 20
-        #self.main_menu()
+        self.main_menu()
         ###### pygame loop #######
         RUNNING = True
         while RUNNING:
@@ -52,12 +52,12 @@ class Maze():
                 if event.type == pygame.QUIT:
                     RUNNING = False
 
-    # reset the grid
+# reset the grid
     def reset_grid(self):
         pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Python Labyrintti")
 
-    # build the grid
+# build the grid
     def build_grid(self, x, y, w):              # 1st argument=x value, 2nd argument=y value, 3rd argument=width of cell
         for i in range(1, w + 1):
             x = w                                                             # set x coordinate to start position
@@ -110,11 +110,56 @@ class Maze():
         pygame.draw.rect(self.screen, YELLOW, (x + 8, y + 8, 5, 5), 0)      # used to show the solution
         pygame.display.update()                                        # has visited cell
 
+    def main_menu(self):
+        print(f"{' VALITSE ALGORITMI ':_^30}")
+        print("1. Mysteerialgoritmi")
+        print("2. Aldous-Broder")
+        print("3. Wilson")
+        print('q. Lopeta ohjelma')
+        print()
+        resp=None
+        while resp not in ['1', '2', '3', 'Q']:
+            resp = str(input("Anna numero\n")).upper().strip()
+
+        if resp == "Q":
+            print("Nähdään taas!")
+            self.event == pygame.QUIT
+        elif resp == '1':
+            print("Valitse luku yhdestä viiteen")
+            resp=None
+            while resp not in ['1', '2', '3', '4', '5']:
+                resp = str(input("Anna numero\n")).upper().strip()
+            self.reset_grid()
+            self.build_grid(40, 0, w)
+            x, y = 20, 20
+            mysteerimaze = Mysteerimaze(self)
+            mysteerimaze.carve_mysteerimaze(x, y, resp)
+        elif resp == '2':
+            self.reset_grid()
+            self.build_grid(40, 0, w)
+            ab_maze = AB_maze(self)
+            ab_maze.carve_AB_maze(0)
+        elif resp == '3':
+            self.reset_grid()
+            self.build_grid(40, 0, w)
+            wilson = Wilson(self)
+            wilson.carve_Wilson_maze(0)
+        self.main_menu()
+
+if __name__ == "__main__":
+    main()
+
+
+class Mysteerimaze():
+
+    def __init__(self, maze):
+        self._maze = maze
+
     def gt_always_last(self, stack, x, y):# valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
         x, y = stack.pop()# algoritmi muuttuu recursive backtracking -algoritmiksi
-        self.single_yellow_cell(x, y)
+        self._maze.single_yellow_cell(x, y)
         time.sleep(.05)
-        self.backtracking_cell(x, y)
+        self._maze.backtracking_cell(x, y)
         return stack, x, y
 
     def gt_always_random(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
@@ -122,9 +167,9 @@ class Maze():
             stack.remove((x, y))
             if len(stack)>0:
                 x, y = (random.choice(stack))
-                self.single_cell(x, y)
+                self._maze.single_cell(x, y)
                 time.sleep(.05)
-                self.backtracking_cell(x, y) 
+                self._maze.backtracking_cell(x, y) 
         return stack, x, y          
 
     def gt_always_first(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
@@ -132,9 +177,9 @@ class Maze():
             stack.remove((x, y))
             if len(stack) > 0:
                 x, y = stack[0]
-                self.single_cell(x, y)
+                self._maze.single_cell(x, y)
                 time.sleep(.05)
-                self.backtracking_cell(x, y)
+                self._maze.backtracking_cell(x, y)
         return stack, x, y
 
     def gt_usually_last_occasionally_random(self, stack, x, y):
@@ -144,9 +189,9 @@ class Maze():
                 x, y = (random.choice(stack))    
             else:
                 x, y = stack.pop()
-                self.single_cell(x, y)
+                self._maze.single_cell(x, y)
                 time.sleep(.05)
-                self.backtracking_cell(x, y)
+                self._maze.backtracking_cell(x, y)
         return stack, x, y
 
     def gt_random_among_last_ones(self, stack, x, y):# poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
@@ -159,59 +204,59 @@ class Maze():
                 list.append((stack[i]))
                 if len(list) > 0:
                     x, y = (random.choice(list))
-            self.single_cell(x, y)
+            self._maze.single_cell(x, y)
             time.sleep(.05)
-            self.backtracking_cell(x, y)
+            self._maze.backtracking_cell(x, y)
         return stack, x, y
 
     # Growing Tree algorithm
     def carve_mysteerimaze(self, x, y, option):
-        self.single_cell(x, y)
+        self._maze.single_cell(x, y)
         stack = []
         stack.append((x,y))
         visited = []
         visited.append((x,y))
         while len(stack) > 0:
             time.sleep(.07)
-            cell = []
+            cell_list = []
             if (x + w, y) not in visited and (x + w, y) in grid:
-                cell.append("right")
+                cell_list.append("right")
 
             if (x - w, y) not in visited and (x - w, y) in grid:
-                cell.append("left")
+                cell_list.append("left")
 
             if (x , y + w) not in visited and (x , y + w) in grid:
-                cell.append("down")
+                cell_list.append("down")
 
             if (x, y - w) not in visited and (x , y - w) in grid:
-                cell.append("up")
+                cell_list.append("up")
 
-            if len(cell) > 0:
-                cell_chosen = (random.choice(cell))
+            if len(cell_list) > 0:
+                cell_chosen = (random.choice(cell_list))
 
                 if cell_chosen == "right":
-                    self.push_right(x, y)
+                    self._maze.push_right(x, y)
                     solution[(x + w, y)] = x, y
                     x = x + w
                     visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "left":
-                    self.push_left(x, y)
+                    self._maze.push_left(x, y)
                     solution[(x - w, y)] = x, y
                     x = x - w
                     visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "down":
-                    self.push_down(x, y)
+                    self._maze.push_down(x, y)
                     solution[(x , y + w)] = x, y
                     y = y + w
                     visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "up":
-                    self.push_up(x, y)
+                    self._maze.push_up(x, y)
                     solution[(x , y - w)] = x, y
                     y = y - w
                     visited.append((x, y))
@@ -229,6 +274,11 @@ class Maze():
                 if option == '5':
                     stack, x, y = self.gt_random_among_last_ones(stack, x, y)
           
+class AB_maze():
+
+    def __init__(self, maze):
+        self._maze = maze
+
     # Aldous-Broder algorithm
     def carve_AB_maze(self, seedling): # luo seed-arvolla 0 labyrintin
         seed(seedling)
@@ -238,50 +288,54 @@ class Maze():
         visited = []
         while len(visited) < 400: # labyrintin ruutujen lukumäärä
             if (x, y) not in visited: visited.append((x,y))
-            self.single_purple_cell(x, y)
+            self._maze.single_purple_cell(x, y)
             time.sleep(.0001)
-            cell = []
+            cell_list = []
             if (x + w, y) in grid:
-                cell.append("right")
+                cell_list.append("right")
 
             if (x - w, y) in grid:
-                cell.append("left")
+                cell_list.append("left")
 
             if (x , y + w) in grid:
-                cell.append("down")
+                cell_list.append("down")
 
             if (x , y - w) in grid:
-                cell.append("up")
+                cell_list.append("up")
 
-            cell_chosen = (random.choice(cell))
+            cell_chosen = (random.choice(cell_list))
 
             if  cell_chosen == "right":
                 if (x + w, y) not in visited:
-                    self.push_right(x, y)
+                    self._maze.push_right(x, y)
                     visited.append((x + w, y))
                     visits += 1
                 x = x + w
 
             elif cell_chosen == "left":
                 if (x - w, y) not in visited:
-                    self.push_left(x, y)
+                    self._maze.push_left(x, y)
                     visited.append((x - w, y))
                     visits += 1
                 x = x - w
 
             elif cell_chosen == "down":
                 if (x, y + w) not in visited:
-                    self.push_down(x, y)
+                    self._maze.push_down(x, y)
                     visited.append((x, y + w))
                     visits += 1
                 y = y + w
 
             elif cell_chosen == "up":
                 if (x, y - w) not in visited:
-                    self.push_up(x, y)
+                    self._maze.push_up(x, y)
                     visited.append((x, y - w))
                     visits += 1
                 y = y - w
+
+class Wilson():
+    def __init__(self, maze):
+        self._maze = maze
 
     def reverse_stack_builder(self, x_max, y_max):
         stack = []
@@ -293,19 +347,19 @@ class Maze():
         return stack
 
     def wilson_path(self, solution, a, b):
-        self.single_purple_cell(a, b)
+        self._maze.single_purple_cell(a, b)
         for cell in solution:# käydään uudelleen reitti läpi ja liitetään se valmiiseen labyrinttiin
             if  cell == "right":
-                self.push_right(a, b)
+                self._maze.push_right(a, b)
                 a += w
             if cell == "left":
-                self.push_left(a, b)
+                self._maze.push_left(a, b)
                 a -=w
             if cell == "down":
-                self.push_down(a, b)
+                self._maze.push_down(a, b)
                 b += w
             if cell == "up":
-                self.push_up(a, b)
+                self._maze.push_up(a, b)
                 b -= w
         return []
 
@@ -326,24 +380,24 @@ class Maze():
                 not_visited.remove((x, y))# poista vapaiden ruutujen luettelosta
                 stack.append((x, y))# lisää nykyiseen polkuun
         
-            self.single_yellow_cell(x, y)
+            self._maze.single_yellow_cell(x, y)
             time.sleep(0.01)
-            cell = []
+            cell_list = []
                 
             if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin
-                cell.append("right")
+                cell_list.append("right")
 
             if (x - w, y) not in stack and (x - w, y) in grid:
-                cell.append("left")
+                cell_list.append("left")
 
             if (x , y + w) not in stack and (x , y + w) in grid:
-                cell.append("down")
+                cell_list.append("down")
 
             if (x , y - w) not in stack and (x , y - w) in grid:
-                cell.append("up")
+                cell_list.append("up")
 
-            if len(cell)>0:
-                cell_chosen = (random.choice(cell))
+            if len(cell_list)>0:
+                cell_chosen = (random.choice(cell_list))
                 
                 if  cell_chosen == "right":
                     if (x + w, y) not in not_visited:# on käyty aiemmin
@@ -401,12 +455,12 @@ class Maze():
                         stack.append((x, y))
                         solution.append(cell_chosen)#
                         
-            elif len(cell)==0:# jos tullaan nykyisen polun muodostamaan umpikujaan 
+            elif len(cell_list)==0:# jos tullaan nykyisen polun muodostamaan umpikujaan 
                 
                 if counter == 1:#ensimmäisen kerran jälkeen
                     x, y = (random.choice(not_visited))# hyppy
-                    for cell in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
-                        not_visited.append(cell)
+                    for cell_list in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
+                        not_visited.append(cell_list)
                     stack = []# tyhjennetään polku
                     solution = []# tyhjennetään piirrettävä reitti
                     solution.append((x, y))# lisätään piirrettävään polkuun nykyinen ruutu
@@ -416,40 +470,3 @@ class Maze():
                     x, y = (random.choice(not_visited))# hyppy
                     solution.append((x,y))# lisätään piirrettävään polkuun nykyinen ruutu
                     counter += 1            
-
-    def main_menu(self):
-        print(f"{' VALITSE ALGORITMI ':_^30}")
-        print("1. Mysteerialgoritmi")
-        print("2. Aldous-Broder")
-        print("3. Wilson")
-        print('q. Lopeta ohjelma')
-        print()
-        resp=None
-        while resp not in ['1', '2', '3', 'Q']:
-            resp = str(input("Anna numero\n")).upper().strip()
-
-        if resp == "Q":
-            print("Nähdään taas!")
-            self.event == pygame.QUIT
-        elif resp == '1':
-            print("Valitse luku yhdestä viiteen")
-            resp=None
-            while resp not in ['1', '2', '3', '4', '5']:
-                resp = str(input("Anna numero\n")).upper().strip()
-            self.reset_grid()
-            self.build_grid(40, 0, w)
-            x, y = 20, 20
-            self.carve_mysteerimaze(x, y, resp)
-        elif resp == '2':
-            self.reset_grid()
-            self.build_grid(40, 0, w)
-            self.carve_AB_maze(0)
-        elif resp == '3':
-            self.reset_grid()
-            self.build_grid(40, 0, w)
-            self.carve_Wilson_maze(0)
-        self.main_menu()
-
-if __name__ == "__main__":
-    Maze()
-    #maze = Maze()
