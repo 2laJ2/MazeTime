@@ -3,6 +3,10 @@ import random
 from random import seed
 from random import randint
 
+
+"""
+Growing Tree -algoritmilla labyrintin rakentava luokka
+"""
 class Mysteerimaze():
     def __init__(self, maze, w, solution):
         self._maze = maze
@@ -10,14 +14,17 @@ class Mysteerimaze():
         self._grid = self._maze._grid
         self._solution = solution
 
-    def gt_always_last(self, stack, x, y):# valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
-        x, y = stack.pop()# algoritmi muuttuu recursive backtracking -algoritmiksi
+    # apumetodi, kun option = 1: valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta,
+    # jolloin algoritmi muuttuu recursive backtracking -algoritmiksi
+    def gt_always_last(self, stack, x, y):
+        x, y = stack.pop()
         self._maze.single_yellow_cell(x, y)
         time.sleep(.05)
         self._maze.backtracking_cell(x, y)
         return stack, x, y
 
-    def gt_always_random(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
+    # apumetodi, kun option = 2: poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun 
+    def gt_always_random(self, stack, x, y):
         if len(stack) > 0:
             stack.remove((x, y))
             if len(stack)>0:
@@ -27,7 +34,8 @@ class Mysteerimaze():
                 self._maze.backtracking_cell(x, y) 
         return stack, x, y          
 
-    def gt_always_first(self, stack, x, y):# poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
+    # apumetodi, kun option = 3: poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
+    def gt_always_first(self, stack, x, y):
         if len(stack) > 0:
             stack.remove((x, y))
             if len(stack) > 0:
@@ -37,8 +45,9 @@ class Mysteerimaze():
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
+    # apumetodi, kun option = 4: poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
     def gt_usually_last_occasionally_random(self, stack, x, y):
-        if len(stack) > 0:# poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
+        if len(stack) > 0:
             choice = (randint(1, 5))
             if choice == 1:
                 x, y = (random.choice(stack))    
@@ -49,7 +58,8 @@ class Mysteerimaze():
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
-    def gt_random_among_last_ones(self, stack, x, y):# poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
+    # apumetodi, kun option = 5: poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
+    def gt_random_among_last_ones(self, stack, x, y):
         if len(stack) > 0:
             stack.remove((x, y))
             length = len(stack)
@@ -64,7 +74,7 @@ class Mysteerimaze():
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
-    # Growing Tree algorithm
+    # metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
     def carve_mysteerimaze(self, seedling, x, y, option):
         seed(seedling)
         self._maze.single_cell(x, y)

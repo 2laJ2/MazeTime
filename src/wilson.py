@@ -1,14 +1,22 @@
+from pickle import FALSE
+from pickle import TRUE
 import time
 import random
 from random import seed
 from random import randint
+from config import Config
 
+
+"""
+Wilsonin algoritmilla labyrintin rakentava luokka
+"""
 class Wilson():
     def __init__(self, maze, w):
         self._maze = maze
         self._w = w
         self._grid = self._maze._grid
 
+    # apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
     def reverse_stack_builder(self, x_max, y_max):
         w = self._w
         stack = []
@@ -19,6 +27,7 @@ class Wilson():
                 stack.append((x, y))
         return stack
 
+    # apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
     def wilson_path(self, solution, a, b):
         w = self._w
         self._maze.single_purple_cell(a, b)
@@ -37,7 +46,7 @@ class Wilson():
                 b -= w
         return []
 
-    # Wilson algorithm
+    # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
     def carve_Wilson_maze(self, seedling):
         seed(seedling)
         w = self._w
@@ -56,8 +65,9 @@ class Wilson():
                 not_visited.remove((x, y))# poista vapaiden ruutujen luettelosta
                 stack.append((x, y))# lisää nykyiseen polkuun
         
-            self._maze.single_yellow_cell(x, y)
-            time.sleep(0.01)
+            
+            self._maze.single_yellow_cell(x,y)
+            time.sleep(0.1)
             cell_list = []
                 
             if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin

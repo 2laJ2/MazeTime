@@ -3,14 +3,18 @@ import random
 from random import seed
 from random import randint
 
+
+"""
+Aldous-Broderin algoritmilla labyrintin rakentava luokka
+"""
 class Abmaze():
     def __init__(self, maze, w):
         self._maze = maze
         self._w = w
         self._grid = self._maze._grid
 
-    # Aldous-Broder algorithm
-    def carve_AB_maze(self, seedling): # luo seed-arvolla 0 labyrintin
+    # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
+    def carve_AB_maze(self, seedling):
         seed(seedling)
         w = self._w
         grid = self._grid

@@ -9,7 +9,9 @@ from mysteerimaze import Mysteerimaze
 from config import Config
 
 
-# initalize Pygame
+"""
+Pygamen avulla labyrintin visualisoinnin rakentava luokka
+"""
 class Maze():
     def __init__(self):
         self._grid = Config.grid
@@ -32,12 +34,12 @@ class Maze():
                 if event.type == pygame.QUIT:
                     RUNNING = False
 
-# reset the grid
+    # reset the grid
     def reset_grid(self):
         pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
         pygame.display.set_caption("Python Labyrintti")
 
-# build the grid
+    # build the grid
     def build_grid(self, w):
         x, y = 0, 0
         for i in range(1, w + 1):
@@ -71,7 +73,7 @@ class Maze():
         pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, (2*w) - 1, w - 1), 0)
         pygame.display.update()
 
-    def single_cell(self, x, y):            # draw a single width cell
+    def single_cell(self, x, y): # draw a single width cell
         w = self._w
         pygame.draw.rect(self.screen, Config.BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
         pygame.display.update()
@@ -89,17 +91,17 @@ class Maze():
     def backtracking_cell(self, x, y):
         w = self._w
         pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)
-        pygame.display.update()             # has visited cell
+        pygame.display.update() # has visited cell
 
     def backtracking_blue_cell(self, x, y):
         w = self._w
         pygame.draw.rect(self.screen, Config.BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
         pygame.display.update()
 
-    def solution_cell(self, x,y):           # used to show the solution
+    def solution_cell(self, x,y): # used to show the solution
         w = self._w
         pygame.draw.rect(self.screen, Config.YELLOW, (x + 8, y + 8, 5, 5), 0)
-        pygame.display.update()             # has visited cell
+        pygame.display.update() # has visited cell
 
     def main_menu(self):
         print(f"{' VALITSE ALGORITMI ':_^30}")
