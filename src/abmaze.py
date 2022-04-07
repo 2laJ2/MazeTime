@@ -64,3 +64,4 @@ class Abmaze():
                     visited.append((x, y - w))
                     visits += 1
                 y = y - w
+       

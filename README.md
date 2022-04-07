@@ -28,7 +28,6 @@ Ohjelman k채ynnistys onnistuu komentorivilt채 projektin juurihakemistossa, miss�
 ```
 python3 src/index.py
 ```
-ja klikkaamalla kerran avautuvan Pygame-ikkunan oikean yl채kulman punaista palloa.
 
 #### Testaus
 
@@ -42,8 +41,6 @@ T채m채n j채lkeen koodin toimintaa tutkivien testien suoritus onnistuu komennolla
 ```
 pytest
 ```
-ja klikkaamalla avautuvan Pygame-ikkunan oikean yl채kulman punaista palloa kerran kutakin testia kohden.
-
 Koodin ulkoasun laatua tarkastelevien testien suoritus onnistuu komennolla
 
 ```
