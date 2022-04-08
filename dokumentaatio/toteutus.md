@@ -22,7 +22,7 @@ Growing Tree -algoritmilla on mahdollista luoda rakenteeltaan erilaisia labyrint
         1. Poistetaan nykyinen ruutu kuljetusta polusta.
         2. Valitaan polusta ruutu.
 
-Algoritmi rakentaa virittävän puun, jossa kaikki ruudut ovat yhteydessä toisiinsa. Muodostuvan labyrintin rakenteeseen vaikuttaa se, millä tavalla umpikujaan tullessa valitaan jo kuljetusta polusta ruutu (ylläolevassa algoritmin kuvauksessa kohdassa 2.2.2). Valinnan voi toteuttaa esim. seuraavin tavoin:
+Algoritmi rakentaa virittävän puun, jossa kaikki ruudut ovat yhteydessä toisiinsa. Muodostuvan labyrintin rakenteeseen vaikuttaa se, millä tavalla umpikujaan tullessa valitaan jo kuljetusta polusta ruutu (ylläolevassa algoritmin kuvauksessa kohdassa 2.ii.b). Valinnan voi toteuttaa esim. seuraavin tavoin:
 
 * Viimeiseksi polkuun lisätty eli edellinen ruutu:
     Algoritmi muuttuu rekursiiviseksi DFS-algoritmiksi (recursive backtracker).
