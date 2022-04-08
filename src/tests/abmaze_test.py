@@ -5,7 +5,7 @@ from abmaze import Abmaze
 
 class TestAbmaze(unittest.TestCase):
     def setUp(self):
-        maze_mock = Mock()#wraps=Maze())
+        maze_mock = Mock()
         w = 20
         self.algoritmi = Abmaze(maze_mock, w)
         self.algoritmi._grid = []
@@ -17,6 +17,6 @@ class TestAbmaze(unittest.TestCase):
                 self.algoritmi._grid.append((x,y))
                 x = x + w
 
-    def test_algoritmi_kay_kaikissa_ruuduissa(self):
+    def test_algoritmi_kutsuu_maze_oliota(self):
         self.algoritmi.carve_AB_maze(0)
         self.algoritmi._maze.assert_any_call
