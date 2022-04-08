@@ -128,7 +128,7 @@ Konstruktori: Wilson(Maze-olio, ruudun leveys)
 1. reverse_stack_builder(x_max, y_max):
 * apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
 * parametrina annetaan luotavan labyrintin suurimmat x- ja y-arvot
-* palauttaa listan labyrintin ruuduista koordinaatteina (x,y) x:n arvoilla 1-x_max ja y:n arvoilla 1-y_max
+* palauttaa listan labyrintin ruuduista koordinaatteina (x,y) x:n arvoilla 1 - x_max ja y:n arvoilla 1 - y_max
 2. wilson_path(solution, a, b):
 * apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
 * parametrina annetaan viimeksi kuljettu polku ja polun ensimmäisen ruudun koordinaatit (a,b)
