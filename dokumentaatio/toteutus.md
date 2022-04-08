@@ -1,5 +1,140 @@
 # Toteutus
-Ohjelma on toteutettu Pythonilla ja visualisoinnissa on käytetty Pythonin Pygame-kirjastoa.
+
+## Ohjelman toiminta
+
+Ohjelma on toteutettu Pythonilla ja visualisoinnissa on käytetty Pythonin Pygame-kirjastoa. Ohjelma käynnistetään tiedoston _index.py_ kautta, jolloin _maze.py_-moduulissa oleva Maze-olio luo visualisoinnin Pygame-kirjaston avulla sekä antaa käyttäjälle komentoikkunassa valikon, jonka avulla voi valita, millä algoritmilla labyrintti rakennetaan. Pygamelle annettavat muuttujat on määritelty _config.py_-tiedostossa.
+
+Käyttäjän tehtyä haluamansa valinnat main_menu -metodi luo uuden Pygame-ikkunan metodilla reset_grid ja piirtää siihen valkoisen ruudukon metodilla build_grid. Tämän jälkeen main_menu luo uuden, käyttäjän valitseman algoritmin mukaisen algoritmiolion injektoimalla Maze-olion uudelle algoritmioliolle. Lopuksi main_menu käynnistää labyrintin rakentamisen suorittamalla algoritmiolion labyrintin rakentavan (pää)metodin. Kunkin algoritmiolion labyrintin rakentavalla päämetodilla on omat tarpeelliset apumetodinsa. Kun labyrintti on valmis, main_menu antaa komentoikkunassa valikon uudelleen, josta käyttäjä voi uudelleen valita haluamansa toiminnon, joko uuden labyrintin tai ohjelman lopetuksen. Kummassakin tapauksessa ohjelma sulkee Pygame-ikkunan. Jos käyttäjä valitsee uuden labyrintin, ohjelma avaa uuden Pygame-ikkunan.
+
+## Käytetyt algoritmit
+
+### Growing Tree eli virittävä puu
+
+Growing Tree -algoritmilla on mahdollista luoda rakenteeltaan erilaisia labyrintteja.
+    1. Valitaan aloitusruutu, lisätään ruutu käytyjen ruutujen luetteloon ja kuljettuun polkuun ja piirretään labyrinttiin.
+    2. Toistetaan niin kauan, kuin labyrintissa on jäljellä ruutuja, joissa ei ole vielä käyty:
+        1. Valitaan satunnainen naapuri, jossa ei ole vielä käyty:
+            1. Poistetaan nykyisen ruudun ja naapuriruudun välinen seinä.
+            2. Lisätään naapuri käytyjen ruutujen luetteloon.
+            3. Merkitään naapuriruutu nykyiseksi ruuduksi.
+            4. Lisätään ruutu kuljettuun polkuun.
+        2. Jos kaikissa naapureissa on käyty, mutta labyrintissa on jäljellä ruutuja, joissa ei ole vielä käyty:
+            1. Poistetaan nykyinen ruutu kuljetusta polusta.
+            2. Valitaan polusta ruutu.
+
+Algoritmi rakentaa virittävän puun, jossa kaikki ruudut ovat yhteydessä toisiinsa. Muodostuvan labyrintin rakenteeseen vaikuttaa se, millä tavalla umpikujaan tullessa valitaan jo kuljetusta polusta ruutu (ylläolevassa algoritmin kuvauksessa kohdassa 2.2.2). Valinnan voi toteuttaa esim. seuraavin tavoin:
+
+- Viimeiseksi polkuun lisätty eli edellinen ruutu:
+    Algoritmi muuttuu rekursiiviseksi DFS-algoritmiksi (recursive backtracker).
+- Satunnainen valinta kuljetusta polusta:
+    Algoritmi käyttäytyy samankaltaisesti muttei täysin identtisesti kuin Primin algoritmi.
+- Ensimmäiseksi polkuun lisätty ruutu:
+    Labyrintin käytävissä on hyvin vähän haarautumia, jopa vähemmän kuin Primin algoritmilla luodussa labyrintissä.
+- Yleensä viimeiseksi lisätty eli edellinen ruutu, mutta toisinaan satunnainen ruutu:
+    Labyrintissä on lyhyitä käytäviä, joissa on paljon haarautumia.
+- Satunnainen ruutu viimeiseksi lisättyjen ruutujen joukosta:
+    Labyrintissä on pitkiä käytäviä, joissa on vähän haarautumia.
+
+### Aldous-Broder
+
+Aldous-Broderin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisia (uniform) labyrintteja ja virittäviä puita. 
+    1. Valitaan satunnainen ruutu, merkitään se nykyiseksi ruuduksi ja lisätään käytyjen ruutujen luetteloon.
+    2. Toistetaan niin kauan, kuin labyrintissä on jäljellä ruutuja, joissa ei ole vielä käyty:
+        1. Valitaan satunnainen naapuri.
+        2. Jos tässä naapurissa ei ole vielä käyty:
+            1. Poistetaan nykyisen ruudun ja naapuriruudun välinen seinä.
+            2. Lisätään naapuriruutu käytyjen ruutujen luetteloon.
+            3. Merkitään naapuriruutu nykyiseksi ruuduksi.
+        3. Jos satunnaisesti valitussa naapurissa on jo käyty, valitaan uusi satunnainen naapuri.
+    3. Kun kaikissa ruuduissa on käyty, algoritmi on valmis.
+
+### Wilson loop erased random walk
+
+Myös Wilsonin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisia labyrintteja. Wilsonin algoritmilla on se ominaisuus, että sillä, millä perusteella aloitusruudut valitaan - voidaan yhtä hyvin valita satunnainen ruutu kuin vaikkapa ensimmäinen tyhjä ruutu vasemmalta oikealle ja alhaalta ylös - ei ole vaikutusta labyrintin rakenteeseen.
+    1.  Valitaan aloitusruutu. Lisätään aloitusruutu polkuun, poistetaan se käymättömien ruutujen luettelosta ja merkitään osaksi labyrinttia.
+    2.  Toistetaan niin kauan, kuin labyrintissä on jäljellä ruutuja, joissa ei ole käyty:
+            1. Valitaan satunnainen naapuri.
+            2. Jos tässä naapurissa ei ole vielä käyty:
+                1. Lisätään naapuri nykyisen polun listalle.
+                2. Poistetaan naapuri käymättömien ruutujen luettelosta.
+            3. Jos tässä naapurissa on jo käyty:
+                1. Jos naapuri on osa nykyistä polkua:
+                    1. Kuljetun polun ruudut lisätään takaisin käymättömien ruutujen luetteloon.
+                    2. Polku tyhjennetään.
+                2. Jos naapuri on osa labyrinttiä tai labyrintin ensimmäinen aloitusruutu:
+                    1. Polku lisätään labyrinttiin:
+                        1. Poistetaan kuljetun polun ruutujen väliset seinät.
+                        2. Poistetaan ruudut käymättömien ruutujen luettelosta.
+                    2. Polku tyhjennetään. 
+                
+## Algoritmien toteutus luokkien avulla
+
+### Mysteerimaze-luokka
+
+Konstruktori: Mysteerimaze(Maze-olio, ruudun leveys, polku-lista)
+
+#### Metodit:
+    1. gt_always_last(stack, x, y):
+        - apumetodi, kun option = 1: valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta
+        - parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
+        - ottaa talteen viimeisimmän ruudun koordinaatit
+        - poistaa viimeisimmän ruudun koordinaatit pinosta 
+        - palauttaa pinon ja viimeisimmän ruudun koordinaattien x- ja y-arvot
+    2. gt_always_random(stack, x, y):
+        - apumetodi, kun option = 2: poistaa ruudun pinosta ja valitsee pinosta satunnaisen ruudun
+        - parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
+        - poistaa viimeisimmän ruudun koordinaatit pinosta
+        - valitsee pinosta satunnaisen ruudun
+        - palauttaa pinon ja satunnaisesti valitun ruudun koordinaattien x- ja y-arvot
+    3. gt_always_first(stack, x, y):
+        - apumetodi, kun option = 3: poistaa ruudun pinosta ja valitsee pinon ensimmäisen ruudun
+        - parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
+        - poistaa viimeisimmän ruudun koordinaatit pinosta
+        - valitsee pinon pohjalta ensimmäisen ruudun
+        - palauttaa pinon ja ensimmäisen ruudun koordinaattien x- ja y-arvot
+    4. gt_usually_last_occasionally_random(stack, x, y):
+        - apumetodi, kun option = 4: poistaa ruudun pinosta ja valitsee yleensä viimeisimmän, välillä satunnaisen ruudun pinosta
+        - parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
+        - valitsee satunnaisen luvun väliltä 1 - 5
+        - jos luku on yksi, valitsee satunnaisen ruudun pinosta (20% tapauksista)
+        - muussa tapauksessa ottaa talteen viimeisimmän ruudun koordinaatit ja poistaa viimeisimmän ruudun koordinaatit pinosta 
+        - palauttaa pinon ja valitun ruudun koordinaattien x- ja y-arvot
+    5. gt_random_among_last_ones(stack, x, y):
+        - apumetodi, kun option = 5: poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
+        - parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
+        - poistaa viimeisimmän ruudun koordinaatit pinosta
+        - laskee pinon koon ja jakaa tämän kymmenellä 
+        - valitsee kymmenen viimeisimmän ruudun joukosta satunnaisen ruudun
+        - palauttaa pinon ja valitun ruudun koordinaattien x- ja y-arvot
+    6.  carve_mysteerimaze(seed, x, y, option):
+        - metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
+
+### Abmaze-luokka
+
+Konstruktori: Abmaze(Maze-olio, ruudun leveys)
+
+#### Metodit:
+    1. carve_AB_maze(seed):
+        - metodi, joka luo parametrina annetulla seed-arvolla labyrintin
+
+### Wilson-luokka
+
+Konstruktori: Wilson(Maze-olio, ruudun leveys)
+
+#### Metodit:
+    1. reverse_stack_builder(x_max, y_max):
+        - apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
+        - parametrina annetaan luotavan labyrintin suurimmat x- ja y-arvot
+        - palauttaa listan labyrintin ruuduista koordinaatteina (x,y) x:n arvoilla 1-x_max ja y:n arvoilla 1-y_max
+    2. wilson_path(solution, a, b):
+        - apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
+        - parametrina annetaan viimeksi kuljettu polku ja polun ensimmäisen ruudun koordinaatit (a,b)
+        - käy järjestyksessä läpi polun aloitusruudusta (a,b) alkaen listalle tallennetut suuntaohjeet ja poistaa ruutujen väliset seinät
+        - palauttaa tyhjän polun
+    3. carve_Wilson_maze(seed):
+        - metodi, joka luo parametrina annetulla seed-arvolla labyrintin
+        - luon listan käymättömistä ruuduista apumetodin rever_stack_builder avulla
+        - liittää kuljetun polun osaksi labyrinttia apumetodin wilson_path avulla
 
 ## Lähteet
 - [Video: Python Maxe Generator Program, Davis MT](https://www.youtube.com/watch?v=Xthh4SEMA2o)

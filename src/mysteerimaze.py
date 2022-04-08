@@ -61,9 +61,9 @@ class Mysteerimaze():
     # apumetodi, kun option = 5: poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
     def gt_random_among_last_ones(self, stack, x, y):
         if len(stack) > 0:
-            stack.remove((x, y))
+            stack.remove((x,y))
             length = len(stack)
-            latest = len(stack)//10
+            latest = len(stack)//4
             list = []
             for i in range(latest, length):
                 list.append((stack[i]))
