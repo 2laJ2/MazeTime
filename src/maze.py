@@ -139,4 +139,4 @@ class Maze():
         self.main_menu()
 
 if __name__ == "__main__":
-    main()
+    Maze()

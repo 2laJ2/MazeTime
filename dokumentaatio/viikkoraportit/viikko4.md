@@ -5,16 +5,18 @@ Muutin luokkajakoa siten, että kukin algoritmi on oma luokkansa, jolle injektoi
 
 Muokkasin testejä, luokkarakennetta ja metodeja siten, että voin testata labyrintin algoritmilla rakentavien metodien toimivuutta. Nyt testaus onnistuu komentoriviltä komennolla pytest src ilman, että Pygame-ikkuna avautuu. Myös ohjelman käynnistys normaalisti komentoriviltä komennolla python3 src/index.py onnistuu ilman ylimääräisiä klikkailuja. Käytin testauksessa Pythonin unittest-moduulin mock-kirjastoa. Siirsin Wilsonin algoritmiä käyttävät, kahta apumetodia testaavat testit tiedostoon wilson_test.py. Loin Aldous-Broderin algoritmia käyttävälle luokalle tiedoston abmaze_test.py ja sinne yhden alustavan testin, jolla pääsen alkuun testien kirjoittamisessa mock-kirjaston avulla. Testaus on vielä keskeneräinen. Työtunteja kului noin 5.
 
-Yhdenmukaistin ohjelmakoodin toteuttavien luokkien kommentointia. Tähän kului noin 0.5 tuntia.
+Yhdenmukaistin ohjelmakoodin toteuttavien luokkien kommentointia. Tähän kului noin 0,5 tuntia.
 
 Kokeilin selkeyttää Wilsonin metodin visualisointia, tarkoituksena oli käyttää uuden polun luomiseen ennen labyrintin osaksi liittämistä aina uutta väriä, joko satunnaisesti tai järjestyksessä (esim. liila, sininen, vihreä, keltainen, oranssi, punainen). Ajatuksena oli, että tarkoituksena ei kuitenkaan ole optimoida labyrintin rakentamiseen kuluvaa aikaa, jolloin värin vaihtamiseen mahdollisesti kuluva lisäaika on epäolennaista. Toistaiseksi kokeilu ei onnistunut, koska en löytänyt ainakaan vielä tapaa vaihtaa uuden kuljettavan polun väriä niin, että uuden polun jokainen ruutu on aina saman värinen (mutta eri värinen kuin edellisessä polussa). Jos uuden polun ruudun väri vaihtuu aina ennen seuraavaa ruutua, siitä ei ole hyötyä vaan haittaa kuljetun reitin hahmottamisessa värikkäiden ruutujen vilkkuessa Pygame-ikkunassa. Jos taas käyttää seed-arvoa värin arpomiseen, se vaikuttaa rakennettavan labyrintin rakenteeseen, jolloin metodi ei enää noudata alkuperäistä algoritmia. Toisaalta, monimutkaisen if-rakennelman rakentaminen värin vaihtamiseksi voisi varmaan onnistuakin, mutta se toisi turhaa kompleksisuutta koodiin hyödyn jäädessä melko vaatimattomaksi. Yksi mahdollisuus voisi olla käydä kuljettu polku läpi kaikilla polun ruutujen arvoilla (x, y) mustalla ruudulla, jolloin kuljettu polku ei jäisi näkyviin seuraavan polun alkaessa. Metodin kirjoittaminen ainakaan vielä tässä vaiheessa ei ole tarpeen. Tähän johtopäätökseen päätymiseen kului noin 2 tuntia.
 
-Päivitin toteutusdokumentin, mihin kului noin 4 tuntia. Yhteensä työtunteja on tällä viikolla kulunut noin 20.
+Päivitin toteutusdokumentin, mihin kului noin 4 tuntia.
 
-Seuraavaksi lisään uusia testejä mock-kirjastoa apuna käyttäen.
+Lisäsin viisi yksikkötestiä, jotka testaavat Mysteerimaze-luokan apumetodien toiminnan. Tähän kului apumetodien toiminnan pohdinnan myötä 1,5 tuntia. Päivitin testaus- ja toteutusdokumentteja, mihin kului noin 0,5 tuntia. Yhteensä työtunteja on tällä viikolla kulunut noin 22.
+
+Seuraavaksi lisään uusia testejä mock-kirjastoa apuna käyttäen; tarkoituksena testata labyrintin rakentavien algoritmien oikeanlainen toiminta ja mahdollisesti visualisoinnin hoitavan Maze-luokan yksittäisten metodien toiminta. Maze-luokan testaaminen ei liene täysin välttämätöntä, mutta jos sattumalta löydän selkeää ohjemateriaalia, niin ainakin muutaman testin voisi kokeilumielessä kirjoittaa, jos ehdin.
 
 Tämän jälkeen Growing Tree -algoritmin viidellä eri variaatiolla luotujen erilaisten rakenteiden vertailu Aldous-Broderin ja Wilsonin algoritmilla luotujen labyrinttien kanssa on seuraava vaihe.
 
 Lopuksi Wilsonin algoritmista voisi poistaa labyrintin rakentamista nopeuttavan muokkauksen (joka ei täysin noudata Wilsonin algoritmin erittäin hidasta alkuvaihetta).
 
-Koodin ulkoasun tarkastelu Pylintin avulla antaa pitkän listan korjattavaa algoritmien monimutkaisuuden vuoksi. En osaa sanoa, mitä asialle pitäisi tehdä, paitsi poistaa kyseiset kohdat pylintin huomioimista asioista.
+Koodin ulkoasun tarkastelu Pylintin avulla antaa pitkän listan korjattavaa algoritmien monimutkaisuuden vuoksi. En osaa sanoa, mitä asialle pitäisi tehdä, paitsi poistaa kyseiset kohdat pylintin huomioimista asioista. Tällä hetkellä GitHubin CI-ajo ei mene läpi nimenomaan pylintin vuoksi, olemassaolevat testit menevät kyllä läpi.

@@ -50,6 +50,7 @@ class Mysteerimaze():
         if len(stack) > 0:
             choice = (randint(1, 5))
             if choice == 1:
+                stack.pop()
                 x, y = (random.choice(stack))    
             else:
                 x, y = stack.pop()

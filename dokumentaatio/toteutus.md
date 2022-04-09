@@ -104,8 +104,8 @@ Konstruktori: Mysteerimaze(Maze-olio, ruudun leveys, polku-lista)
 * apumetodi, kun option = 5: poistaa ruudun pinosta ja valitsee satunnaisen ruudun viimeisten ruutujen joukosta
 * parametrina annetaan pino ja nykyisen ruudun koordinaattien x- ja y-arvot
 * poistaa viimeisimmän ruudun koordinaatit pinosta
-* laskee pinon koon ja jakaa tämän kymmenellä 
-* valitsee kymmenen viimeisimmän ruudun joukosta satunnaisen ruudun
+* laskee pinon koon ja jakaa tämän neljällä, jos jakolaskun tulos ei ole kokonaisluku, antaa tulokseksi desimaaliluvun kokonaiset luvut. Esim. 10/4 = 2,5, antaa tuloksen 2.
+* valitsee viimeisimpien ruudun joukosta satunnaisen ruudun, esim. pinossa 10 ruutua, valitsee 10 - 2 = 8 viimeisimmästä ruudusta satunnaisen ruudun
 * palauttaa pinon ja valitun ruudun koordinaattien x- ja y-arvot
 6.  carve_mysteerimaze(seed, x, y, option):
 * metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
