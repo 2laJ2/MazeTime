@@ -3,13 +3,27 @@ from unittest.mock import Mock, ANY
 from maze import Maze
 from mysteerimaze import Mysteerimaze
 
-class TestAbmaze(unittest.TestCase):
+class TestMysteerimaze(unittest.TestCase):
     def setUp(self):
         maze_mock = Mock()
         maze_mock._x_max = 20
         maze_mock._y_max = 20
-        w = 20
-        self.algoritmi = Mysteerimaze(maze_mock, maze_mock._x_max, maze_mock._y_max, w, {})
+        maze_mock._w = 20
+        maze_mock._solution = {}
+        self.algoritmi = Mysteerimaze(maze_mock, maze_mock._x_max, maze_mock._y_max, maze_mock._w, maze_mock._solution)
+        self.algoritmi._maze = maze_mock
+        self.algoritmi._x_max = maze_mock._x_max
+        self.algoritmi._y_max = maze_mock._y_max
+        self.algoritmi._w = maze_mock._w
+        self.algoritmi._solution = maze_mock._solution
+        self.algoritmi._grid = []
+        x, y = 0, 0
+        for i in range(1, maze_mock._y_max + 1):
+            x = self.algoritmi._w
+            y = y + self.algoritmi._w
+            for j in range(1, maze_mock._x_max + 1):
+                self.algoritmi._grid.append((x,y))
+                x = x + self.algoritmi._w
 
     def test_metodi_gt_always_last_toimii_oikein(self):
         stack, x, y = self.algoritmi.gt_always_last([(4,2),(4,4)],4,4) 
@@ -38,3 +52,27 @@ class TestAbmaze(unittest.TestCase):
         self.assertNotEqual(x+y, 2)
         self.assertNotEqual(x+y, 3)
         self.assertNotEqual(x+y, 9)
+
+    def test_algoritmi_kutsuu_maze_oliota_kun_option_1(self):
+        self.algoritmi.carve_mysteerimaze(0, '1')
+        self.algoritmi._maze.assert_any_call
+
+    def test_algoritmi_kay_kaikissa_ruuduissa_kun_option_1(self):
+        self.algoritmi.carve_mysteerimaze(0, '1')
+        self.assertEqual(len(self.algoritmi._visited), self.algoritmi._x_max*self.algoritmi._y_max)
+                
+    def test_algoritmi_kay_kaikissa_ruuduissa_kun_option_2(self):
+        self.algoritmi.carve_mysteerimaze(0, '2')
+        self.assertEqual(len(self.algoritmi._visited), self.algoritmi._x_max*self.algoritmi._y_max)
+
+    def test_algoritmi_kay_kaikissa_ruuduissa_kun_option_3(self):
+        self.algoritmi.carve_mysteerimaze(0, '3')
+        self.assertEqual(len(self.algoritmi._visited), self.algoritmi._x_max*self.algoritmi._y_max)
+
+    def test_algoritmi_kay_kaikissa_ruuduissa_kun_option_4(self):
+        self.algoritmi.carve_mysteerimaze(0, '4')
+        self.assertEqual(len(self.algoritmi._visited), self.algoritmi._x_max*self.algoritmi._y_max)
+
+    def test_algoritmi_kay_kaikissa_ruuduissa_kun_option_5(self):
+        self.algoritmi.carve_mysteerimaze(0, '5')
+        self.assertEqual(len(self.algoritmi._visited), self.algoritmi._x_max*self.algoritmi._y_max)

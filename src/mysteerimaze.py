@@ -15,6 +15,7 @@ class Mysteerimaze():
         self._w = w
         self._grid = self._maze._grid
         self._solution = solution
+        self._visited = []
 
     # apumetodi, kun option = 1: valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta,
     # jolloin algoritmi muuttuu recursive backtracking -algoritmiksi
@@ -77,7 +78,7 @@ class Mysteerimaze():
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
-    # metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
+    # metodi, joka luo parametrina annetuilla seed- ja option-arvoilla labyrintin
     def carve_mysteerimaze(self, seedling, option):
         seed(seedling)
         w = self._w
@@ -87,21 +88,21 @@ class Mysteerimaze():
         solution = self._solution
         stack = []
         stack.append((x,y))
-        visited = []
-        visited.append((x,y))
+        self._visited = []
+        self._visited.append((x,y))
         while len(stack) > 0:
             time.sleep(.001)
             cell_list = []
-            if (x + w, y) not in visited and (x + w, y) in grid:
+            if (x + w, y) not in self._visited and (x + w, y) in grid:
                 cell_list.append("right")
 
-            if (x - w, y) not in visited and (x - w, y) in grid:
+            if (x - w, y) not in self._visited and (x - w, y) in grid:
                 cell_list.append("left")
 
-            if (x , y + w) not in visited and (x , y + w) in grid:
+            if (x , y + w) not in self._visited and (x , y + w) in grid:
                 cell_list.append("down")
 
-            if (x, y - w) not in visited and (x , y - w) in grid:
+            if (x, y - w) not in self._visited and (x , y - w) in grid:
                 cell_list.append("up")
 
             if len(cell_list) > 0:
@@ -111,28 +112,28 @@ class Mysteerimaze():
                     self._maze.push_right(x, y)
                     solution[(x + w, y)] = x, y
                     x = x + w
-                    visited.append((x, y))
+                    self._visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "left":
                     self._maze.push_left(x, y)
                     solution[(x - w, y)] = x, y
                     x = x - w
-                    visited.append((x, y))
+                    self._visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "down":
                     self._maze.push_down(x, y)
                     solution[(x , y + w)] = x, y
                     y = y + w
-                    visited.append((x, y))
+                    self._visited.append((x, y))
                     stack.append((x, y))
 
                 elif cell_chosen == "up":
                     self._maze.push_up(x, y)
                     solution[(x , y - w)] = x, y
                     y = y - w
-                    visited.append((x, y))
+                    self._visited.append((x, y))
                     stack.append((x, y))
 
             else:
