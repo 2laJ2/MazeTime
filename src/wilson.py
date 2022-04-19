@@ -11,8 +11,10 @@ from config import Config
 Wilsonin algoritmilla labyrintin rakentava luokka
 """
 class Wilson():
-    def __init__(self, maze, w):
+    def __init__(self, maze, x, y, w):
         self._maze = maze
+        self._x_max = x
+        self._y_max = y
         self._w = w
         self._grid = self._maze._grid
 
@@ -51,14 +53,14 @@ class Wilson():
         seed(seedling)
         w = self._w
         grid = self._grid
-        x = (randint(0, w-1))*20
-        y = (randint(0, w-1))*20
+        x = (randint(0, self._x_max-1))*w
+        y = (randint(0, self._y_max-1))*w
         a = x
         b = y
         solution = []
         stack = []
         counter = 0
-        not_visited = self.reverse_stack_builder(20, 20)# labyrintin koko x, y
+        not_visited = self.reverse_stack_builder(self._x_max, self._y_max)# labyrintin koko x, y
         while len(not_visited) > 0:# labyrintin ruutujen lukumäärä alussa 400
                             # jos haluat tarkastella labyrinttia, pysäytä viimeiseen ruutuun laittamalla 0:n tilalle 1
             if (x, y) in not_visited:# jos ruutu on vapaa 
@@ -67,7 +69,7 @@ class Wilson():
         
             
             self._maze.single_yellow_cell(x,y)
-            time.sleep(0.1)
+            time.sleep(0.001)
             cell_list = []
                 
             if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin

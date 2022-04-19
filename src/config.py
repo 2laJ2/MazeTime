@@ -1,7 +1,7 @@
 class Config:
     # set up pygame window
-    WIDTH = 500
-    HEIGHT = 600
+    WIDTH = 1000# 500 for every 20 cells of width 20
+    HEIGHT = 1200# 600 for every 20 cells of width 20
     FPS = 30
 
     # define colours
@@ -16,9 +16,9 @@ class Config:
     PURPLE = (255, 0, 255)
 
     # setup maze variables
-    x = 20          # x axis
-    y = 20          # y axis
-    w = 20          # width of cell
+    x_max = 40# 20 # number of cells in the x axis 
+    y_max = 20# 20 # number of cells in the y axis
+    w = 20         # width of cell
     grid = []
     visited = []
     stack = []

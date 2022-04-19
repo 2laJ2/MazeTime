@@ -8,8 +8,10 @@ from random import randint
 Growing Tree -algoritmilla labyrintin rakentava luokka
 """
 class Mysteerimaze():
-    def __init__(self, maze, w, solution):
+    def __init__(self, maze, x, y, w, solution):
         self._maze = maze
+        self._x_max = x
+        self._y_max = y
         self._w = w
         self._grid = self._maze._grid
         self._solution = solution
@@ -76,10 +78,11 @@ class Mysteerimaze():
         return stack, x, y
 
     # metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
-    def carve_mysteerimaze(self, seedling, x, y, option):
+    def carve_mysteerimaze(self, seedling, option):
         seed(seedling)
-        self._maze.single_cell(x, y)
         w = self._w
+        x, y = w, w
+        self._maze.single_cell(x, y)
         grid = self._grid
         solution = self._solution
         stack = []
@@ -87,7 +90,7 @@ class Mysteerimaze():
         visited = []
         visited.append((x,y))
         while len(stack) > 0:
-            time.sleep(.07)
+            time.sleep(.001)
             cell_list = []
             if (x + w, y) not in visited and (x + w, y) in grid:
                 cell_list.append("right")

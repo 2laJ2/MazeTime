@@ -8,8 +8,10 @@ from random import randint
 Aldous-Broderin algoritmilla labyrintin rakentava luokka
 """
 class Abmaze():
-    def __init__(self, maze, w):
+    def __init__(self, maze, x, y, w):
         self._maze = maze
+        self._x_max = x
+        self._y_max = y
         self._w = w
         self._grid = self._maze._grid
 
@@ -22,7 +24,7 @@ class Abmaze():
         y = (randint(0, w-1))*20
         visits = 0
         visited = []
-        while len(visited) < 400: # labyrintin ruutujen lukumäärä
+        while len(visited) < (self._x_max*self._y_max): # labyrintin ruutujen lukumäärä
             if (x, y) not in visited: visited.append((x,y))
             self._maze.single_purple_cell(x, y)
             time.sleep(.0001)

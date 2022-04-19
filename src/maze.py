@@ -21,7 +21,7 @@ class Maze():
         self.screen = pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
         pygame.display.set_caption("Python Labyrintti")
         self.clock = pygame.time.Clock()
-        self._x, self._y, self._w = Config.x, Config.y, Config.w
+        self._x_max, self._y_max, self._w = Config.x_max, Config.y_max, Config.w
         self.main_menu()
         ###### pygame loop #######
         RUNNING = True
@@ -40,12 +40,13 @@ class Maze():
         pygame.display.set_caption("Python Labyrintti")
 
     # build the grid
-    def build_grid(self, w):
+    def build_grid(self):
+        w = self._w
         x, y = 0, 0
-        for i in range(1, w + 1):
-            x = w           # set x coordinate to start position
+        for i in range(1, self._y_max + 1):
+            x = w          # set x coordinate to start position
             y = y + w       # start a new row
-            for j in range(1, w + 1):
+            for j in range(1, self._x_max + 1):
                 pygame.draw.line(self.screen, Config.WHITE, [x, y], [x + w, y])           # top of cell
                 pygame.draw.line(self.screen, Config.WHITE, [x + w, y], [x + w, y + w])   # right of cell
                 pygame.draw.line(self.screen, Config.WHITE, [x + w, y + w], [x, y + w])   # bottom of cell
@@ -123,18 +124,18 @@ class Maze():
             while resp not in ['1', '2', '3', '4', '5']:
                 resp = str(input("Anna numero\n")).upper().strip()
             self.reset_grid()
-            self.build_grid(self._w)
-            mysteerimaze = Mysteerimaze(self, self._w, self._solution)
-            mysteerimaze.carve_mysteerimaze(0, self._x, self._y, resp)
+            self.build_grid()
+            mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w, self._solution)
+            mysteerimaze.carve_mysteerimaze(0, resp)
         elif resp == '2':
             self.reset_grid()
-            self.build_grid(self._w)
-            abmaze = Abmaze(self, self._w)
+            self.build_grid()
+            abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
             abmaze.carve_AB_maze(0)
         elif resp == '3':
             self.reset_grid()
-            self.build_grid(self._w)
-            wilson = Wilson(self, self._w)
+            self.build_grid()
+            wilson = Wilson(self, self._x_max, self._y_max, self._w)
             wilson.carve_Wilson_maze(0)
         self.main_menu()
 
