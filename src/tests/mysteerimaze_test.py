@@ -6,8 +6,10 @@ from mysteerimaze import Mysteerimaze
 class TestAbmaze(unittest.TestCase):
     def setUp(self):
         maze_mock = Mock()
+        maze_mock._x_max = 20
+        maze_mock._y_max = 20
         w = 20
-        self.algoritmi = Mysteerimaze(maze_mock, w, {})
+        self.algoritmi = Mysteerimaze(maze_mock, maze_mock._x_max, maze_mock._y_max, w, {})
 
     def test_metodi_gt_always_last_toimii_oikein(self):
         stack, x, y = self.algoritmi.gt_always_last([(4,2),(4,4)],4,4) 

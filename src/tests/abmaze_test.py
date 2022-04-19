@@ -6,14 +6,21 @@ from abmaze import Abmaze
 class TestAbmaze(unittest.TestCase):
     def setUp(self):
         maze_mock = Mock()
-        w = 20
-        self.algoritmi = Abmaze(maze_mock, w)
+        maze_mock._x_max = 20
+        maze_mock._y_max = 20
+        maze_mock._w = 20
+        self.algoritmi = Abmaze(maze_mock, maze_mock._x_max, maze_mock._y_max_, maze_mock._w)
+        self.algoritmi._maze = maze_mock
+        self.algoritmi._x_max = maze_mock._x_max
+        self.algoritmi._y_max = maze_mock._y_max
+        self.algoritmi._w = maze_mock._w
+        w = self.algoritmi._w
         self.algoritmi._grid = []
         x, y = 0, 0
-        for i in range(1, w + 1):
+        for i in range(1, maze_mock._y_max + 1):
             x = w
             y = y + w
-            for j in range(1, w + 1):
+            for j in range(1, maze_mock._x_max + 1):
                 self.algoritmi._grid.append((x,y))
                 x = x + w
 
