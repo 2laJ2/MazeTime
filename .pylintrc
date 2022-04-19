@@ -1,6 +1,6 @@
 [MASTER]
 
-ignore=tests,index.py, pygamemaze.py
+ignore=tests, index.py, pygamemaze.py, maze.py
 load-plugins=pylint.extensions.mccabe
 
 [MESSAGE CONTROL]
@@ -87,7 +87,12 @@ disable=print-statement,
         missing-module-docstring,
         missing-function-docstring,
         missing-class-docstring,
-        no-self-use
+        no-self-use,
+        pointless-string-statement,
+        invalid-name,
+        too-few-public-methods,
+        too-many-branches,
+        duplicate-code
 
 [FORMAT]
 
@@ -95,9 +100,9 @@ max-line-length=110
 
 [REFACTORING]
 
-max-nested-blocks=2
+max-nested-blocks=5
 
 [DESIGN]
 
-max-statements=20
-max-complexity=3
+max-statements=100
+max-complexity=30

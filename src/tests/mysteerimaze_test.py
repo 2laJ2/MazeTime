@@ -10,7 +10,7 @@ class TestMysteerimaze(unittest.TestCase):
         maze_mock._y_max = 20
         maze_mock._w = 20
         maze_mock._solution = {}
-        self.algoritmi = Mysteerimaze(maze_mock, maze_mock._x_max, maze_mock._y_max, maze_mock._w, maze_mock._solution)
+        self.algoritmi = Mysteerimaze(maze_mock, maze_mock._x_max, maze_mock._y_max, maze_mock._w)
         self.algoritmi._maze = maze_mock
         self.algoritmi._x_max = maze_mock._x_max
         self.algoritmi._y_max = maze_mock._y_max

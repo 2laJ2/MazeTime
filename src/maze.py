@@ -1,7 +1,3 @@
-import time
-import random
-from random import seed
-from random import randint
 import pygame
 from wilson import Wilson
 from abmaze import Abmaze
@@ -125,7 +121,7 @@ class Maze():
                 resp = str(input("Anna numero\n")).upper().strip()
             self.reset_grid()
             self.build_grid()
-            mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w, self._solution)
+            mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w)
             mysteerimaze.carve_mysteerimaze(0, resp)
         elif resp == '2':
             self.reset_grid()

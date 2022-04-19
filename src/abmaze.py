@@ -26,7 +26,8 @@ class Abmaze():
         visits = 0
         self._visited = []
         while len(self._visited) < (self._x_max*self._y_max): # labyrintin ruutujen lukumäärä
-            if (x, y) not in self._visited: self._visited.append((x,y))
+            if (x, y) not in self._visited:
+                self._visited.append((x,y))
             self._maze.single_purple_cell(x, y)
             time.sleep(.0001)
             cell_list = []
