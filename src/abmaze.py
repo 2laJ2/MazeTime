@@ -16,13 +16,17 @@ class Abmaze():
         self._grid = self._maze._grid
         self._visited = []
 
+    # testauksessa käytetty metodi, joka palauttaa labyrintin
+    def get_visited(self):
+        return self._visited
+
     # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
     def carve_AB_maze(self, seedling):
         seed(seedling)
         w = self._w
         grid = self._grid
-        x = (randint(0, w-1))*20
-        y = (randint(0, w-1))*20
+        x = (randint(0, self._x_max-1))*20
+        y = (randint(0, self._y_max-1))*20
         visits = 0
         self._visited = []
         while len(self._visited) < (self._x_max*self._y_max): # labyrintin ruutujen lukumäärä

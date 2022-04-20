@@ -15,6 +15,11 @@ class Wilson():
         self._w = w
         self._grid = self._maze._grid
         self._not_visited = []
+        self._visited = []
+
+    # testauksessa käytetty metodi, joka palauttaa labyrintin
+    def get_visited(self):
+        return self._visited
 
     # apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
     def reverse_stack_builder(self, x_max, y_max):
@@ -29,21 +34,26 @@ class Wilson():
 
     # apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
     def wilson_path(self, solution, a, b):
+        self._visited.append((a, b))
         w = self._w
         self._maze.single_purple_cell(a, b)
         for cell in solution:# käydään uudelleen reitti läpi ja liitetään se valmiiseen labyrinttiin
             if  cell == "right":
                 self._maze.push_right(a, b)
                 a += w
+                self._visited.append((a, b))
             if cell == "left":
                 self._maze.push_left(a, b)
                 a -= w
+                self._visited.append((a, b))
             if cell == "down":
                 self._maze.push_down(a, b)
                 b += w
+                self._visited.append((a, b))
             if cell == "up":
                 self._maze.push_up(a, b)
                 b -= w
+                self._visited.append((a, b))
         return []
 
     # metodi, joka luo parametrina annetulla seed-arvolla labyrintin

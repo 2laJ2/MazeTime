@@ -17,6 +17,10 @@ class Mysteerimaze():
         self._solution = self._maze._solution
         self._visited = []
 
+    # testauksessa käytetty metodi, joka palauttaa labyrintin
+    def get_visited(self):
+        return self._visited
+
     # apumetodi, kun option = 1: valitsee viimeisimmän lisätyn ruudun ja poistaa sen pinosta,
     # jolloin algoritmi muuttuu recursive backtracking -algoritmiksi
     def gt_always_last(self, stack, x, y):
