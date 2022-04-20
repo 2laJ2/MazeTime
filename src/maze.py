@@ -123,19 +123,20 @@ class Maze():
             self.build_grid()
             mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w)
             mysteerimaze.carve_mysteerimaze(0, resp)
-            #print(mysteerimaze.get_visited())
+            # print(mysteerimaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+                                                # tuple-listana komentorivillä
         elif resp == '2':
             self.reset_grid()
             self.build_grid()
             abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
             abmaze.carve_AB_maze(0)
-            #print(abmaze.get_visited())
+            # print(abmaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
         elif resp == '3':
             self.reset_grid()
             self.build_grid()
             wilson = Wilson(self, self._x_max, self._y_max, self._w)
             wilson.carve_Wilson_maze(0)
-            #print(wilson.get_visited())
+            # print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
         self.main_menu()
 
 if __name__ == "__main__":

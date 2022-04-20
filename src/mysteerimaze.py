@@ -148,9 +148,8 @@ class Mysteerimaze():
                     stack, x, y = self.gt_usually_last_occasionally_random(stack, x, y)
                 if option == '5':
                     stack, x, y = self.gt_random_among_last_ones(stack, x, y)
-    
+
     # testauksessa käytetty metodi, joka palauttaa labyrintin
     def get_visited(self):
         return self._visited
-
     
