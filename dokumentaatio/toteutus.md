@@ -71,7 +71,7 @@ Myös Wilsonin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisia
 
 ### Mysteerimaze-luokka
 
-Konstruktori: Mysteerimaze(Maze-olio, ruudun leveys, polku-lista)
+Konstruktori: Mysteerimaze(Maze-olio, labyrintin leveys, labyrintin korkeus, ruudun leveys, polku-lista)
 
 #### Metodit:
 
@@ -107,21 +107,25 @@ Konstruktori: Mysteerimaze(Maze-olio, ruudun leveys, polku-lista)
 * laskee pinon koon ja jakaa tämän neljällä, jos jakolaskun tulos ei ole kokonaisluku, antaa tulokseksi desimaaliluvun kokonaiset luvut. Esim. 10/4 = 2,5, antaa tuloksen 2.
 * valitsee viimeisimpien ruudun joukosta satunnaisen ruudun, esim. pinossa 10 ruutua, valitsee 10 - 2 = 8 viimeisimmästä ruudusta satunnaisen ruudun
 * palauttaa pinon ja valitun ruudun koordinaattien x- ja y-arvot
-6.  carve_mysteerimaze(seed, x, y, option):
-* metodi, joka luo parametrina annetuilla seed-, x-, y- ja option-arvoilla labyrintin
+6. carve_mysteerimaze(seed, option):
+* metodi, joka luo parametrina annetuilla seed- ja option-arvoilla labyrintin
+7. get_visited():
+* testauksessa käytetty metodi, joka palauttaa labyrintin
 
 ### Abmaze-luokka
 
-Konstruktori: Abmaze(Maze-olio, ruudun leveys)
+Konstruktori: Abmaze(Maze-olio, labyrintin leveys, labyrintin korkeus, ruudun leveys, polku-lista)
 
 #### Metodit:
 
 1. carve_AB_maze(seed):
 * metodi, joka luo parametrina annetulla seed-arvolla labyrintin
+2. get_visited():
+* testauksessa käytetty metodi, joka palauttaa labyrintin
 
 ### Wilson-luokka
 
-Konstruktori: Wilson(Maze-olio, ruudun leveys)
+Konstruktori: Wilson(Maze-olio, labyrintin leveys, labyrintin korkeus, ruudun leveys, polku-lista)
 
 #### Metodit:
 
@@ -138,6 +142,9 @@ Konstruktori: Wilson(Maze-olio, ruudun leveys)
 * metodi, joka luo parametrina annetulla seed-arvolla labyrintin
 * luo listan käymättömistä ruuduista apumetodin rever_stack_builder avulla
 * liittää kuljetun polun osaksi labyrinttia apumetodin wilson_path avulla
+* tallentaa kuljetun reitin koordinaatit listaan, joka voidaan palauttaa metodin get_visited avulla
+4. get_visited():
+* testauksessa käytetty metodi, joka palauttaa labyrintin
 
 ## Lähteet
 

@@ -17,10 +17,6 @@ class Wilson():
         self._not_visited = []
         self._visited = []
 
-    # testauksessa käytetty metodi, joka palauttaa labyrintin
-    def get_visited(self):
-        return self._visited
-
     # apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
     def reverse_stack_builder(self, x_max, y_max):
         w = self._w
@@ -169,3 +165,7 @@ class Wilson():
                     x, y = (random.choice(self._not_visited))# hyppy
                     solution.append((x,y))# lisätään piirrettävään polkuun nykyinen ruutu
                     counter += 1
+
+    # testauksessa käytetty metodi, joka palauttaa labyrintin
+    def get_visited(self):
+        return self._visited

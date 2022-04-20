@@ -16,10 +16,6 @@ class Abmaze():
         self._grid = self._maze._grid
         self._visited = []
 
-    # testauksessa käytetty metodi, joka palauttaa labyrintin
-    def get_visited(self):
-        return self._visited
-
     # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
     def carve_AB_maze(self, seedling):
         seed(seedling)
@@ -76,4 +72,7 @@ class Abmaze():
                     self._visited.append((x, y - w))
                     visits += 1
                 y = y - w
-       
+
+    # testauksessa käytetty metodi, joka palauttaa labyrintin
+    def get_visited(self):
+        return self._visited
