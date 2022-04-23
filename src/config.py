@@ -24,7 +24,7 @@ class Config:
     stack = []
     solution = {}
 
-    # values used with time-funktion of the algorithms
+    # values used with time function of the algorithms
     NOPEA = 0.0001
     KESKIVERTO = 0.005
     HIDAS = 0.0100
