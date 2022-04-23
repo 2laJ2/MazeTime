@@ -22,13 +22,38 @@
 
 ### Komentorivitoiminnot
 
+#### Ohjelman asennus
+
+Ohjelman voi kopioida omalle koneelle luomalla ensin kansion, johon repositorion haluaa kopioida. Tämän jälkeen siirrytään uuteen kansioon ja alustetaan git komentorivikomennolla
+
+```
+git init
+```
+Tämän jälkeen kopioidaan repositorio omalle koneelle komennolla 
+
+```
+git clone https://github.com/2laJ2/MazeTime
+```
+Sitten siirrytään uuteen kansioon MazeTime, projektin juurihakemistoon, missä kansio src ja pyproject.toml-tiedosto sijaitsevat ja alustetaan Poetry komennolla 
+
+```
+poetry install
+```
 #### Ohjelman käynnistys
+
+Seuraavaksi siirrytään virtuaaliympäristöön komennolla
+
+```
+poetry shell
+```
 
 Ohjelman käynnistys onnistuu komentoriviltä projektin juurihakemistossa, missä kansio src ja pyproject.toml-tiedosto sijaitsevat komennolla
 
 ```
 python3 src/index.py
 ```
+
+Kansiossa src sijaitsee konfiguraatiotiedosto _config.py_, jossa määritellään mm. avautuvan Pygame-ikkunan ja ohjelman piirtämän labyrintin koko. Algoritmit käyttävät konfiguraatiotiedostossa määriteltyjä visualisoinnin nopeusarvoja, joita voi halutessaan itse muuttaa tai vaihtaa hitaampaan tai nopeampaan.
 
 #### Testaus
 

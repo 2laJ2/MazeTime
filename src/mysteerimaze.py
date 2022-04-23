@@ -1,8 +1,9 @@
+from distutils.command.config import config
 import time
 import random
 from random import seed
 from random import randint
-
+from config import Config
 
 """
 Growing Tree -algoritmilla labyrintin rakentava luokka
@@ -22,7 +23,7 @@ class Mysteerimaze():
     def gt_always_last(self, stack, x, y):
         x, y = stack.pop()
         self._maze.single_yellow_cell(x, y)
-        time.sleep(.05)
+        time.sleep(Config.HIDAS)
         self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -33,7 +34,7 @@ class Mysteerimaze():
             if len(stack)>0:
                 x, y = (random.choice(stack))
                 self._maze.single_cell(x, y)
-                time.sleep(.05)
+                time.sleep(Config.HIDAS)
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -44,7 +45,7 @@ class Mysteerimaze():
             if len(stack) > 0:
                 x, y = stack[0]
                 self._maze.single_cell(x, y)
-                time.sleep(.05)
+                time.sleep(Config.HIDAS)
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -59,7 +60,7 @@ class Mysteerimaze():
             else:
                 x, y = stack.pop()
                 self._maze.single_cell(x, y)
-                time.sleep(.05)
+                time.sleep(Config.HIDAS)
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -75,7 +76,7 @@ class Mysteerimaze():
                 if len(wilson_list) > 0:
                     x, y = (random.choice(wilson_list))
             self._maze.single_cell(x, y)
-            time.sleep(.05)
+            time.sleep(Config.HIDAS)
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -92,7 +93,7 @@ class Mysteerimaze():
         self._visited = []
         self._visited.append((x,y))
         while len(stack) > 0:
-            time.sleep(.001)
+            time.sleep(Config.HIDAS)
             cell_list = []
             if (x + w, y) not in self._visited and (x + w, y) in grid:
                 cell_list.append("right")

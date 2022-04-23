@@ -7,6 +7,8 @@ Korjasin pieniä bugeja ja lisäsin kullekin algoritmille testausta helpottavan,
  
 Mahdollisesti myöhemmin lisään myös uusia testejä visualisoinnin hoitavan Maze-luokan yksittäisten metodien toiminnan testaamiseksi mock-kirjaston avulla. Maze-luokan testaaminen ei liene täysin välttämätöntä, mutta jos sattumalta löydän selkeää ohjemateriaalia, niin ainakin muutaman testin voisi kokeilumielessä kirjoittaa, jos ehdin.
 
+Olen aloittanut suorituskykytestaukseen liittyvien testien suunnittelun. Toistaiseksi alustavaan aiheeseen tutustumiseen on kulunut noin 4 tuntia. Suorituskykytestit sijoitetaan omaan luokkaansa _comparison.py_, jonne sijoitetaan myös eri algoritmeilla luotujen labyrinttien rakennetta vertailevat testit. Näiden testien ajaminen suoritetaan Maze-luokan _main_menu_ -metodin avulla. Käyttäjälle näkyvään valikkoon lisätään suorituskykyä mittaavat ja rakenteita vertailevat testit erikseen. Testien suunnittelussa haasteena on myös se, miten algoritmien suorituskykyä mittaavissa testeissä otetaan huomioon Pygamen käytön vaikutus algoritmien nopeuteen, koska mm. jokaisessa algoritmissa on käytetty visualisoinnin selkeyden vuoksi funktiota time.sleep().
+
 Seuraavaksi lisään testejä, joilla voidaan vertailla Growing Tree -algoritmin viidellä eri variaatiolla luotuja erilaisia rakenteita Aldous-Broderin ja Wilsonin algoritmilla luotujen labyrinttien kanssa.
 
 Lopuksi Wilsonin algoritmista voisi poistaa labyrintin rakentamista nopeuttavan muokkauksen (joka ei täysin noudata Wilsonin algoritmin erittäin hidasta alkuvaihetta) ja päivittää testauksen Wilsonin labyrintin osalta.

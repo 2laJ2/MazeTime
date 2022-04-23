@@ -2,6 +2,7 @@ import pygame
 from wilson import Wilson
 from abmaze import Abmaze
 from mysteerimaze import Mysteerimaze
+from comparison import Comparison
 from config import Config
 
 
@@ -105,10 +106,11 @@ class Maze():
         print("1. Mysteerialgoritmi")
         print("2. Aldous-Broder")
         print("3. Wilson")
+        print("4. Suorituskykytestaus")
         print('q. Lopeta ohjelma')
         print()
         resp=None
-        while resp not in ['1', '2', '3', 'Q']:
+        while resp not in ['1', '2', '3', '4', 'Q']:
             resp = str(input("Anna numero\n")).upper().strip()
 
         if resp == "Q":
@@ -137,6 +139,21 @@ class Maze():
             wilson = Wilson(self, self._x_max, self._y_max, self._w)
             wilson.carve_Wilson_maze(0)
             # print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+        elif resp == '4':
+            print(f"{' VALITSE ALGORITMI ':_^30}")
+            print("1. Mysteerialgoritmi")
+            print("2. Aldous-Broder")
+            print("3. Wilson")
+            resp=None
+            while resp not in ['1', '2', '3']:
+                resp = str(input("Anna luku\n")).upper().strip()
+            self.reset_grid()
+            self.build_grid()
+            # tähän toteutetaan myöhemmin myös muut algoritmit
+            abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
+            comparison = Comparison(abmaze)
+            print("Aldous-Broderin algoritmia käyttävän metodin suoritusaika sekunneissa on keskimäärin")
+            print(comparison.test_time_complexity())
         self.main_menu()
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import time
 import random
 from random import seed
 from random import randint
+from config import Config
 
 
 """
@@ -29,7 +30,7 @@ class Abmaze():
             if (x, y) not in self._visited:
                 self._visited.append((x,y))
             self._maze.single_purple_cell(x, y)
-            time.sleep(.0001)
+            time.sleep(Config.KESKIVERTO)
             cell_list = []
             if (x + w, y) in grid:
                 cell_list.append("right")

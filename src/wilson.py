@@ -2,7 +2,7 @@ import time
 import random
 from random import seed
 from random import randint
-
+from config import Config
 
 """
 Wilsonin algoritmilla labyrintin rakentava luokka
@@ -72,7 +72,7 @@ class Wilson():
 
 
             self._maze.single_yellow_cell(x,y)
-            time.sleep(0.001)
+            time.sleep(Config.HIDAS)
             cell_list = []
 
             if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin

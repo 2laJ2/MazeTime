@@ -1,6 +1,6 @@
 [MASTER]
 
-ignore=tests, index.py, pygamemaze.py, maze.py
+ignore=tests, index.py, pygamemaze.py, maze.py, config.py
 load-plugins=pylint.extensions.mccabe
 
 [MESSAGE CONTROL]
@@ -90,7 +90,6 @@ disable=print-statement,
         no-self-use,
         pointless-string-statement,
         invalid-name,
-        too-few-public-methods,
         too-many-branches,
         duplicate-code
 
