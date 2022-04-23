@@ -1,8 +1,4 @@
 import time
-import random
-from abmaze import Abmaze
-from mysteerimaze import Mysteerimaze
-from wilson import Wilson
 
 
 """
@@ -31,7 +27,7 @@ class Comparison():
     def test_risteysten_lukumaarat(self):# alustava versio labyrintin rakenteita mittaavasta metodista
         pass
 
-    def test_kaytavien_keskimaarainen_pituus(self):# alustava versio labyrintin rakenteita mittaavasta metodista
+    def test_kaytavien_keskimaarainen_pituus(self):# alustava versio rakenteita vertailevasta metodista
         pass
 
     def test_rakenneominaisuus_x(self):# alustava versio labyrintin rakenteita mittaavasta metodista

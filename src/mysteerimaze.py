@@ -1,4 +1,3 @@
-from distutils.command.config import config
 import time
 import random
 from random import seed
