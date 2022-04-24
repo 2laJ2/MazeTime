@@ -16,9 +16,9 @@ class Config:
     PURPLE = (255, 0, 255)
 
     # setup maze variables
-    x_max = 20# 20 # number of cells in the x axis
-    y_max = 20# 20 # number of cells in the y axis
-    w = 20         # width of cell
+    x_max = 20 # number of cells in the x axis
+    y_max = 20 # number of cells in the y axis
+    w = 20     # width of cell
     grid = []
     visited = []
     stack = []

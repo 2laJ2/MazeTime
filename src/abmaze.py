@@ -22,8 +22,8 @@ class Abmaze():
         seed(seedling)
         w = self._w
         grid = self._grid
-        x = (randint(0, self._x_max-1))*20
-        y = (randint(0, self._y_max-1))*20
+        x = (randint(0, self._x_max-1))*w
+        y = (randint(0, self._y_max-1))*w
         visits = 0
         self._visited = []
         while len(self._visited) < (self._x_max*self._y_max): # labyrintin ruutujen lukumäärä
