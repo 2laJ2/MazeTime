@@ -2,6 +2,7 @@ import time
 import random
 from random import seed
 from random import randint
+from itertools import islice
 from config import Config
 
 """
@@ -14,42 +15,79 @@ class Wilson():
         self._y_max = y
         self._w = w
         self._grid = self._maze._grid
-        self._not_visited = []
-        self._visited = []
+        self._not_visited = {}
+        self._visited = {}
 
     # apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
     def reverse_stack_builder(self, x_max, y_max):
         w = self._w
-        stack = []
+        stack = {}
         for i in range(1, x_max+1):
             x = i*w
             for j in range(1, y_max+1):
                 y = j*w
-                stack.append((x, y))
+                stack[(x,y)] = (1,1,1,1)
         return stack
 
     # apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
     def wilson_path(self, solution, a, b):
-        self._visited.append((a, b))
+        self._visited[(a, b)] = (1, 1, 1, 1)
         w = self._w
         self._maze.single_purple_cell(a, b)
         for cell in solution:# käydään uudelleen reitti läpi ja liitetään se valmiiseen labyrinttiin
             if  cell == "right":
                 self._maze.push_right(a, b)
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, 0, g, h)
                 a += w
-                self._visited.append((a, b))
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (0, f, g, h)
             if cell == "left":
                 self._maze.push_left(a, b)
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (0, f, g, h)
                 a -= w
-                self._visited.append((a, b))
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, 0, g, h)
             if cell == "down":
                 self._maze.push_down(a, b)
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, f, g, 0)
                 b += w
-                self._visited.append((a, b))
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, f, 0, h)
             if cell == "up":
                 self._maze.push_up(a, b)
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, f, 0, h)
                 b -= w
-                self._visited.append((a, b))
+                if (a, b) in self._visited:
+                    e, f, g, h = self._visited[(a, b)]
+                else:
+                    e, f, g, h = 1, 1, 1, 1
+                self._visited[(a, b)] = (e, f, g, 0)
+
         return []
 
     # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
@@ -62,16 +100,15 @@ class Wilson():
         a = x
         b = y
         solution = []
-        stack = []
+        stack = {}
         counter = 0
         self._not_visited = self.reverse_stack_builder(self._x_max, self._y_max)# labyrintin koko x, y
         while len(self._not_visited) > 0:# len(self._not_visited) alussa = ruutujen lukumäärä alussa
+            #len(self._visited) <= self._x_max*self._y_max:
             if (x, y) in self._not_visited:# jos ruutu on vapaa
-                self._not_visited.remove((x, y))# poista vapaiden ruutujen luettelosta
-                stack.append((x, y))# lisää nykyiseen polkuun
-
-
-            self._maze.single_yellow_cell(x,y)
+                stack[(x, y)] = self._not_visited[(x, y)]
+                del self._not_visited[(x, y)]# poista vapaiden ruutujen luettelosta
+            self._maze.single_yellow_cell(x, y)
             time.sleep(Config.HIDAS)
             cell_list = []
 
@@ -93,77 +130,128 @@ class Wilson():
                 if  cell_chosen == "right":
                     if (x + w, y) not in self._not_visited:# on käyty aiemmin
                         solution.append(cell_chosen)#
-                        a, b = (stack[0])
+                        stack_keys = stack.items()
+                        keys_iterator = iter(stack_keys)
+                        first_key = next(keys_iterator)
+                        key, value = first_key
+                        a, b = key
                         solution = self.wilson_path(solution, a, b)# liittää polun labyrinttiin, tyhjentää sen
-                        stack = []
+                        stack = {}
                         if len(self._not_visited) != 0:
-                            x, y = (random.choice(self._not_visited))
+                            n = randint(0, len(self._not_visited)-1)
+                            stack_keys = self._not_visited.items()
+                            keys_iterator = iter(stack_keys)
+                            next(islice(keys_iterator, n, n), None)
+                            wanted_key = next(keys_iterator)
+                            key, value = wanted_key
+                            x, y = key
                         a, b = x, y
                     elif (x + w, y) in self._not_visited:# ei ole käyty aiemmin
                         x += w
-                        self._not_visited.remove((x, y))
-                        stack.append((x, y))
+                        del self._not_visited[(x, y)]
+                        stack[(x, y)] = (0, 1, 1, 1)
                         solution.append(cell_chosen)# lisätään ruutu reittiin
 
                 elif cell_chosen == "left":
                     if (x - w, y) not in self._not_visited:
                         solution.append(cell_chosen)
-                        a, b = (stack[0])
+                        stack_keys = stack.items()
+                        keys_iterator = iter(stack_keys)
+                        first_key = next(keys_iterator)
+                        key, value = first_key
+                        a, b = key
                         solution = self.wilson_path(solution, a, b)
-                        stack = []
+                        stack = {}
                         if len(self._not_visited) != 0:
-                            x, y = (random.choice(self._not_visited))
+                            n = randint(0, len(self._not_visited)-1)
+                            stack_keys = self._not_visited.items()
+                            keys_iterator = iter(stack_keys)
+                            next(islice(keys_iterator, n, n), None)
+                            wanted_key = next(keys_iterator)
+                            key, value = wanted_key
+                            x, y = key
                         a, b = x, y
                     elif (x - w, y) in self._not_visited:
                         x -= w
-                        self._not_visited.remove((x, y))
-                        stack.append((x, y))
+                        del self._not_visited[(x, y)]
+                        stack[(x, y)] = (1, 0, 1, 1)
                         solution.append(cell_chosen)
 
                 elif cell_chosen == "down":
                     if (x, y + w) not in self._not_visited:
                         solution.append(cell_chosen)
-                        a, b = (stack[0])
+                        stack_keys = stack.items()
+                        keys_iterator = iter(stack_keys)
+                        first_key = next(keys_iterator)
+                        key, value = first_key
+                        a, b = key
                         solution = self.wilson_path(solution, a, b)
-                        stack = []
+                        stack = {} #[]
                         if len(self._not_visited) != 0:
-                            x, y = (random.choice(self._not_visited))
+                            n = randint(0, len(self._not_visited)-1)
+                            stack_keys = self._not_visited.items()
+                            keys_iterator = iter(stack_keys)
+                            next(islice(keys_iterator, n, n), None)
+                            wanted_key = next(keys_iterator)
+                            key, value = wanted_key
+                            x, y = key
                         a, b = x, y
                     elif (x, y + w) in self._not_visited:
                         y += w
-                        self._not_visited.remove((x, y))
-                        stack.append((x, y))
-                        solution.append(cell_chosen)#
+                        del self._not_visited[(x, y)]
+                        stack[(x, y)] = (1, 0, 1, 1)
+                        solution.append(cell_chosen)
 
                 elif cell_chosen == "up":
                     if (x, y - w) not in self._not_visited:
                         solution.append(cell_chosen)
-                        a, b = (stack[0])
+                        stack_keys = stack.items()
+                        keys_iterator = iter(stack_keys)
+                        first_key = next(keys_iterator)
+                        key, value = first_key
+                        a, b = key
                         solution = self.wilson_path(solution, a, b)
-                        stack = []
+                        stack = {}
                         if len(self._not_visited) != 0:
-                            x, y = (random.choice(self._not_visited))
+                            n = randint(0, len(self._not_visited)-1)
+                            stack_keys = self._not_visited.items()
+                            keys_iterator = iter(stack_keys)
+                            next(islice(keys_iterator, n, n), None)
+                            wanted_key = next(keys_iterator)
+                            key, value = wanted_key
+                            x, y = key
                         a, b = x, y
                     elif (x, y - w) in self._not_visited:
                         y -= w
-                        self._not_visited.remove((x, y))
-                        stack.append((x, y))
-                        solution.append(cell_chosen)#
+                        del self._not_visited[(x, y)]
+                        stack[(x, y)] = (1, 0, 1, 1)
+                        solution.append(cell_chosen)
 
             elif len(cell_list)==0:# jos tullaan nykyisen polun muodostamaan umpikujaan
 
                 if counter == 1:#ensimmäisen kerran jälkeen
-                    x, y = (random.choice(self._not_visited))# hyppy
+                    n = randint(0, len(self._not_visited)-1)
+                    stack_keys = self._not_visited.items()
+                    keys_iterator = iter(stack_keys)
+                    next(islice(keys_iterator, n, n), None)
+                    wanted_key = next(keys_iterator)
+                    key, value = wanted_key
+                    x, y = key
                     for cell_list in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
-                        self._not_visited.append(cell_list)
-                    stack = []# tyhjennetään polku
+                        self._not_visited[(cell_list)] = (1, 1, 1, 1)
+                    stack = {}#[]# tyhjennetään polku
                     solution = []# tyhjennetään piirrettävä reitti
-                    solution.append((x, y))# lisätään piirrettävään polkuun nykyinen ruutu
                 if counter == 0:# ensimmäinen kerta
-                    stack = []# tyhjennetään polku
-                    solution = self.wilson_path(solution, a, b)# # liittää polun labyrinttiin, tyhjentää polun
-                    x, y = (random.choice(self._not_visited))# hyppy
-                    solution.append((x,y))# lisätään piirrettävään polkuun nykyinen ruutu
+                    stack = {}#[]# tyhjennetään polku
+                    solution = self.wilson_path(solution, a, b)# liittää polun labyrinttiin, tyhjentää polun
+                    n = randint(0, len(self._not_visited)-1)# hyppy
+                    stack_keys = self._not_visited.items()
+                    keys_iterator = iter(stack_keys)
+                    next(islice(keys_iterator, n, n), None)
+                    wanted_key = next(keys_iterator)
+                    key, value = wanted_key
+                    x, y = key
+                    #solution.append((x,y))# lisätään piirrettävään polkuun nykyinen ruutu
                     counter += 1
 
     # testauksessa käytetty metodi, joka palauttaa labyrintin

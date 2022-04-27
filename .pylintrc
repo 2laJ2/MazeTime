@@ -91,7 +91,10 @@ disable=print-statement,
         pointless-string-statement,
         invalid-name,
         too-many-branches,
-        duplicate-code
+        duplicate-code,
+        too-many-locals,
+        unused-variable,
+        consider-using-enumerate
 
 [FORMAT]
 
@@ -103,5 +106,5 @@ max-nested-blocks=5
 
 [DESIGN]
 
-max-statements=100
+max-statements=150
 max-complexity=30

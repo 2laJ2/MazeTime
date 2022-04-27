@@ -1,0 +1,16 @@
+# Viikkoraportti 6
+Suorituskykytestauksessa haasteena on ottaa huomioon Pygamen käytön vaikutus algoritmien nopeuteen, koska mm. jokaisessa algoritmissa on käytetty visualisoinnin selkeyden vuoksi funktiota time.sleep(). Algoritmit ovat myös kohtalaisen hitaita. Aikavertailun sijaan on mielekkäämpää tehdä laadullisia vertailuja eri algoritmien luomien labyrinttien rakenteiden välillä. Vertailevat testit sijoitetaan omaan luokkaansa _comparison.py_. Näiden testien ajaminen suoritetaan Maze-luokan _main_menu_ -metodin avulla automaattisesti aina uuden labyrintin rakentamisen jälkeen.
+
+Koska kunkin algoritmin labyrintin palauttava get_visited -metodi palautti listan koordinaateista (x,y), labyrintin tallennustapaa oli muutettava, jotta rakenteellisten vertailujen tekeminen olisi mahdollista. Muutin Aldous-Broderin algoritmia siten, että käytyjen ruutujen luetteloon visited tallennetaan koordinaatille (x, y) arvo (vasen, oikea, ylös, alas); jossa avaimena on koordinaatti (x, y) ja arvona lista ruudun ympärillä olevista seinistä siten, että seinää vastaa luku 1 ja avointa kulkua luku 0.
+
+Tämän jälkeen loin _comparison.py_-luokalle uuden metodin jarjesta_ruudut, jolle annetaan parametrina visited-lista. Metodi järjestää ruudut ensisijaisesti x-koordinaatin, toissijaisesti y-koordinaatin perusteella. Metodi palauttaa labyrintin ruudut järjestyksessä ylhäältä alas sarake kerrallaan vasemmalta oikealle.
+
+Aloitin metodin test_lukumaarat kirjoittamisen. Metodilla lasketaan labyrintista umpikujien, erilaisten risteysten, mutkien ja suorien käytäväruutujen kappalemäärät. Metodi on keskeneräinen. Metodissa on bugi, jonka vuoksi osa ruuduista lasketaan useammin kuin kerran. Etsin bugia, kun kaikki algoritmiluokat on ensin päivitetty. Tähän mennessä työaikaa kului 6,5 tuntia. 
+
+Päivitin _abmaze.py_-luokan testauksen. Päivitin Wilsonin algoritmin siten, että algoritmi tallentaa käytyjen ruutujen luettelon avaimena koordinaatit (x, y) ja arvona ruudun seinälistan (vasen, oikea, ylös, alas). Muutostyö on osoittautui haasteelliseksi. Päivitin myös _wilson.py_-luokan testauksen. Tähän kului työaikaa 5 tuntia.
+
+Luokassa _wilson.py_ oli bugi, koska get_visited() palautti labyrintin, jonka koko oli n. 26% suurempi kuin labyrintin oikea koko, esim. 100 ruudulle annettu koko on 126 ja 400 ruudulle 526. Tästä johtuen _comparison.py_-luokan metodit eivät toimineet Wilsonin algoritmille. Bugi löytyi lopulta metodista wilson_path.Bugia löytymiseen ja _wilson.py_-luokan testauksen päivittämiseen kului algoritmin monimutkaisuudesta johtuen 4 tuntia.
+
+Seuraavaksi päivitän _mysteerimaze.py_-luokan Growing Tree -algoritmin tallentamaan visited-listaan kunkin ruudun seinät luettelona ja päivitän testauksen, minkä jälkeen lisään _comparison.py_-luokkaan testin, jolla lasketaan erikseen vaaka- ja pystysuoraan kulkevien suorien käytävien pituudet sekä umpikujien pituudet annetussa labyrintissa.
+
+Lopuksi Wilsonin algoritmista voisi poistaa labyrintin rakentamista nopeuttavan muokkauksen (joka ei täysin noudata Wilsonin algoritmin erittäin hidasta alkuvaihetta) ja päivittää testauksen Wilsonin labyrintin osalta.
