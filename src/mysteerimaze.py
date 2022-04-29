@@ -58,15 +58,12 @@ class Mysteerimaze():
     def gt_always_first(self, stack, x, y):
         if (x, y) in stack:
             wanted_key = (x, y), stack[(x, y)]
-            print("")
-            print(wanted_key)
             del stack[(x, y)]
             #stack.remove((x, y))
             if len(stack) > 0:
                 stack_keys = stack.items()
                 keys_iterator = iter(stack_keys)
                 wanted_key = next(keys_iterator)
-                print(wanted_key)
                 key, value = wanted_key
                 x, y = key
             #x, y = stack[0]
