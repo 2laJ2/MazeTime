@@ -59,9 +59,9 @@ class Comparison():
                 risteykset_4 += 1
             if a + b + c + d == 1:
                 risteykset_3 += 1
-            if a + b == 0:
+            if a + b == 0 and c + d == 2:
                 kaytavat_vo += 1
-            if c + d == 0:
+            if c + d == 0 and a + b == 2:
                 kaytavat_ya += 1
             if a + b == 1 and c + d == 1:
                 mutkat += 1
@@ -77,10 +77,9 @@ class Comparison():
         print(kaytavat_vo)
         print("pystysuoria käytäväruutuja:")
         print(kaytavat_ya)
-        print("ruutuja yhteensä:")
-        koko = umpikujat + risteykset_4 + risteykset_3 + mutkat + kaytavat_vo + kaytavat_ya
-        print(koko)
-
+        #print("ruutuja yhteensä:")
+        #koko = umpikujat + risteykset_4 + risteykset_3 + mutkat + kaytavat_vo + kaytavat_ya
+        #print(koko)
 
     def test_risteysten_lukumaarat(self):# alustava versio labyrintin rakenteita mittaavasta metodista
         pass

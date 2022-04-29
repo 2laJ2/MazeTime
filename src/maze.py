@@ -106,7 +106,6 @@ class Maze():
         print("1. Mysteerialgoritmi")
         print("2. Aldous-Broder")
         print("3. Wilson")
-        #print("4. Suorituskykytestaus")
         print('q. Lopeta ohjelma')
         print()
         resp=None
@@ -125,8 +124,13 @@ class Maze():
             self.build_grid()
             mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w)
             mysteerimaze.carve_mysteerimaze(0, resp)
-            # print(mysteerimaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
-                                                # tuple-listana komentorivillä
+            #print(mysteerimaze.get_visited())# palauttaa labyrintin komentorivillä
+            pituus = len(mysteerimaze.get_visited())
+            print("ruutuja labyrintissa:")
+            print(pituus)
+            comparison = Comparison(mysteerimaze)
+            #print(comparison.jarjesta_ruudut(mysteerimaze.get_visited()))
+            comparison.test_lukumaarat(mysteerimaze.get_visited())
         elif resp == '2':
             self.reset_grid()
             self.build_grid()
@@ -144,28 +148,13 @@ class Maze():
             self.build_grid()
             wilson = Wilson(self, self._x_max, self._y_max, self._w)
             wilson.carve_Wilson_maze(0)
-            print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+            #print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
             pituus = len(wilson.get_visited())
             print("ruutuja labyrintissa:")
             print(pituus)
             comparison = Comparison(wilson)
             #print(comparison.jarjesta_ruudut(wilson.get_visited()))
             comparison.test_lukumaarat(wilson.get_visited())
-        #elif resp == '4':
-        #    print(f"{' VALITSE ALGORITMI ':_^30}")
-        #    print("1. Mysteerialgoritmi")
-        #    print("2. Aldous-Broder")
-        #    print("3. Wilson")
-        #    resp=None
-        #    while resp not in ['1', '2', '3']:
-        #        resp = str(input("Anna luku\n")).upper().strip()
-        #    self.reset_grid()
-        #    self.build_grid()
-        #    # tähän toteutetaan myöhemmin myös muut algoritmit
-        #    abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
-        #    comparison = Comparison(abmaze)
-        #    print("Aldous-Broderin algoritmia käyttävän metodin suoritusaika sekunneissa on kolmella kierroksella keskimäärin")
-        #    print(comparison.test_time_complexity())
         self.main_menu()
 
 if __name__ == "__main__":
