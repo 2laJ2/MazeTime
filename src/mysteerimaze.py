@@ -58,14 +58,17 @@ class Mysteerimaze():
     def gt_always_first(self, stack, x, y):
         if (x, y) in stack:
             wanted_key = (x, y), stack[(x, y)]
+            print("")
+            print(wanted_key)
             del stack[(x, y)]
             #stack.remove((x, y))
-        if len(stack) > 0:
-            stack_keys = stack.items()
-            keys_iterator = iter(stack_keys)
-            wanted_key = next(keys_iterator)
-            key, value = wanted_key
-            x, y = key
+            if len(stack) > 0:
+                stack_keys = stack.items()
+                keys_iterator = iter(stack_keys)
+                wanted_key = next(keys_iterator)
+                print(wanted_key)
+                key, value = wanted_key
+                x, y = key
             #x, y = stack[0]
             self._maze.single_cell(x, y)
             time.sleep(Config.HIDAS)
@@ -77,6 +80,7 @@ class Mysteerimaze():
     def gt_usually_last_occasionally_random(self, stack, x, y):
         if (x, y) in stack:
             wanted_key = (x, y), stack[(x, y)]
+            del stack[(x, y)]
         if len(stack) > 0:
             choice = (randint(1, 5))
             if choice == 1:
