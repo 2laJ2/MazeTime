@@ -109,6 +109,7 @@ Konstruktori: Mysteerimaze(Maze-olio, labyrintin leveys, labyrintin korkeus, ruu
 * palauttaa pinon ja valitun ruudun koordinaattien x- ja y-arvot
 6. carve_mysteerimaze(seed, option):
 * metodi, joka luo parametrina annetuilla seed- ja option-arvoilla labyrintin
+* tallentaa labyrintin sanakirjamuodossa (dictionary): järjestyksessä oleva lista labyrintin ruuduista, avaimena koordinaatit (x,y) x:n arvoilla 1 - x_max ja y:n arvoilla 1 - y_max ja arvona luettelo seinistä (1, 1, 1, 1), jolloin ruutua ympäröi seinä järjestyksessä vasen, oikea, ylös, alas. Pythonin uusin versio tallentaa sanakirjan järjestyksessä listana.
 7. get_visited():
 * testauksessa käytetty metodi, joka palauttaa labyrintin
 
@@ -120,6 +121,7 @@ Konstruktori: Abmaze(Maze-olio, labyrintin leveys, labyrintin korkeus, ruudun le
 
 1. carve_AB_maze(seed):
 * metodi, joka luo parametrina annetulla seed-arvolla labyrintin
+* tallentaa labyrintin sanakirjamuodossa (dictionary): järjestyksessä oleva lista labyrintin ruuduista, avaimena koordinaatit (x,y) x:n arvoilla 1 - x_max ja y:n arvoilla 1 - y_max ja arvona luettelo seinistä (1, 1, 1, 1), jolloin ruutua ympäröi seinä järjestyksessä vasen, oikea, ylös, alas. 
 2. get_visited():
 * testauksessa käytetty metodi, joka palauttaa labyrintin
 
@@ -132,19 +134,57 @@ Konstruktori: Wilson(Maze-olio, labyrintin leveys, labyrintin korkeus, ruudun le
 1. reverse_stack_builder(x_max, y_max):
 * apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
 * parametrina annetaan luotavan labyrintin suurimmat x- ja y-arvot
-* palauttaa listan labyrintin ruuduista koordinaatteina (x,y) x:n arvoilla 1 - x_max ja y:n arvoilla 1 - y_max
+* palauttaa listan sanakirjamuodossa (dictionary) labyrintin ruuduista avaimena koordinaatit (x,y) x:n arvoilla 1 - x_max ja y:n arvoilla 1 - y_max ja arvona luettelo seinistä (1, 1, 1, 1), jolloin ruutua ympäröi seinä järjestyksessä vasen, oikea, ylös, alas. 
 2. wilson_path(solution, a, b):
 * apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
 * parametrina annetaan viimeksi kuljettu polku ja polun ensimmäisen ruudun koordinaatit (a,b)
-* käy järjestyksessä läpi polun aloitusruudusta (a,b) alkaen listalle tallennetut suuntaohjeet ja poistaa ruutujen väliset seinät
+* käy järjestyksessä läpi polun aloitusruudusta (a,b) alkaen listalle tallennetut suuntaohjeet ja poistaa ruutujen väliset seinät muuttamalla ko. seinille annetut arvot 1 (seinä) arvoksi 0 (avoin) - esim. kuljettaessa ruudusta a oikealle ruutuun b muutetaan ruudun a oikeanpuoleisen seinän arvoksi 0 ja ruudun b vasemmanpuoleisen seinän arvoksi 0 muiden seinien arvojen pysyessä ennallaan
 * palauttaa tyhjän polun
 3. carve_Wilson_maze(seed):
 * metodi, joka luo parametrina annetulla seed-arvolla labyrintin
 * luo listan käymättömistä ruuduista apumetodin rever_stack_builder avulla
 * liittää kuljetun polun osaksi labyrinttia apumetodin wilson_path avulla
-* tallentaa kuljetun reitin koordinaatit listaan, joka voidaan palauttaa metodin get_visited avulla
+* tallentaa kuljetun reitin koordinaatit seinäluetteloineen (sanakirjamuotoiseen) listaan, joka voidaan palauttaa metodin get_visited avulla
 4. get_visited():
 * testauksessa käytetty metodi, joka palauttaa labyrintin
+
+### Comparison-luokka
+
+Labyrintin rakentamiseen käytettyjen algoritmien suorituskykyä ja labyrinttien rakenteita vertaileva luokka
+
+Konstruktori: Comparison(algoritmiolio)
+
+#### Metodit:
+
+1. test_running_time
+* mittaa algoritmiin kuluvan keskimääräisen ajan valituilla parametreilla kolmen ajon perusteella
+* ajan kulumiseen vaikuttaa Pygamen visualisointi
+2. jarjesta_ruudut_pystysuora(visited)
+* metodi, joka järjestää ruudut ensisijaisesti x-koordinaatin, toissijaisesti y-koordinaatin perusteella
+* parametrina annetaan visited-lista
+* palauttaa labyrintin ruudut järjestyksessä ylhäältä alas sarake kerrallaan vasemmalta oikealle
+3. jarjesta_ruudut_vaakasuora(visited)
+* metodi, joka järjestää ruudut ensisijaisesti y-koordinaatin, toissijaisesti x-koordinaatin perusteella
+* parametrina annetaan visited-lista
+* käyttää metodia muodosta_y_koordinaatti_lista apuna luodessaan uuden listan visited-listasta
+* palauttaa labyrintin ruudut järjestyksessä vasemmalta oikealle ylhäältä alas rivi kerrallaan 
+4. muodosta_x_koordinaatti_lista
+* metodi, joka luo listan (x, y) koordinaateista ensisijaisesti x-koordinaatin, toissijaisesti y-koordinaatin perusteella
+* käyttää listan luomisessa Comparison-oliolle parametrina annetun algoritmiolion x_max-, y_max- ja w-arvoja
+* palauttaa valmiin listan
+5. muodosta_y_koordinaatti_lista
+* metodi, joka luo listan (x, y) koordinaateista ensisijaisesti y-koordinaatin, toissijaisesti x-koordinaatin perusteella
+* käyttää listan luomisessa Comparison-oliolle parametrina annetun algoritmiolion x_max-, y_max- ja w-arvoja
+* palauttaa valmiin listan
+6. test_lukumaarat(visited)
+* metodi, joka laskee, kuinka moni labyrintin ruuduista on umpikuja, neljän käytävän risteys, kolmen käytävän risteys, mutka, vaakasuora käytävä tai pystysuora käytävä
+* tulostaa laskemiensa ruutujen lukumäärät komentoruudulla
+7. test_umpikujien_pituudet
+* metodi, joka laskee umpikujien pituudet
+8. test_kaytavien_pituudet
+* metodi, joka laskee pystysuorien ja vaakasuorien käytävien pituudet
+9. get_algoritmi
+* metodi, joka palauttaa Comparison-oliolle annetun algoritmiolion
 
 ## Lähteet
 

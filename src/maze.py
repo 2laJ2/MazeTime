@@ -129,7 +129,8 @@ class Maze():
             print("ruutuja labyrintissa:")
             print(pituus)
             comparison = Comparison(mysteerimaze)
-            #print(comparison.jarjesta_ruudut(mysteerimaze.get_visited()))
+            #print(comparison.jarjesta_ruudut_pystysuora(mysteerimaze.get_visited()))
+            #print(comparison.jarjesta_ruudut_vaakasuora(mysteerimaze.get_visited()))
             comparison.test_lukumaarat(mysteerimaze.get_visited())
         elif resp == '2':
             self.reset_grid()
@@ -141,7 +142,8 @@ class Maze():
             print("ruutuja labyrintissa:")
             print(pituus)
             comparison = Comparison(abmaze)
-            #print(comparison.jarjesta_ruudut(abmaze.get_visited()))
+            #print(comparison.jarjesta_ruudut_pystysuora(abmaze.get_visited()))
+            #print(comparison.jarjesta_ruudut_vaakasuora(abmaze.get_visited()))
             comparison.test_lukumaarat(abmaze.get_visited())
         elif resp == '3':
             self.reset_grid()
@@ -153,7 +155,8 @@ class Maze():
             print("ruutuja labyrintissa:")
             print(pituus)
             comparison = Comparison(wilson)
-            #print(comparison.jarjesta_ruudut(wilson.get_visited()))
+            #print(comparison.jarjesta_ruudut_pystysuora(wilson.get_visited()))
+            #print(comparison.jarjesta_ruudut_vaakasuora(wilson.get_visited()))
             comparison.test_lukumaarat(wilson.get_visited())
         self.main_menu()
 

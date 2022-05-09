@@ -30,7 +30,7 @@ class Abmaze():
             if (x, y) not in self._visited:
                 self._visited[(x,y)] = (1,1,1,1)#.append(x,y)
             self._maze.single_purple_cell(x, y)
-            time.sleep(Config.KESKIVERTO)
+            time.sleep(Config.NOPEA)
             cell_list = []
             if (x + w, y) in grid:
                 cell_list.append("right")
