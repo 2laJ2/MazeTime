@@ -73,7 +73,7 @@ class Maze():
 
     def single_cell(self, x, y): # draw a single width cell
         w = self._w
-        pygame.draw.rect(self.screen, Config.BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
+        pygame.draw.rect(self.screen, Config.BLUE, (x + 1 + w//6, y + 1 + w//6, w - 2 - w//3, w - 2 - w//3), 0)
         pygame.display.update()
 
     def single_purple_cell(self, x, y):
@@ -126,12 +126,14 @@ class Maze():
             mysteerimaze.carve_mysteerimaze(0, resp)
             #print(mysteerimaze.get_visited())# palauttaa labyrintin komentorivillä
             pituus = len(mysteerimaze.get_visited())
-            print("ruutuja labyrintissa:")
-            print(pituus)
+            print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(mysteerimaze)
-            #print(comparison.jarjesta_ruudut_pystysuora(mysteerimaze.get_visited()))
-            #print(comparison.jarjesta_ruudut_vaakasuora(mysteerimaze.get_visited()))
-            comparison.test_lukumaarat(mysteerimaze.get_visited())
+            comparison.test_lukumaarat(mysteerimaze.get_visited(), "k")
+            print("labyrintissa olevien käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(mysteerimaze.get_visited(), ".")
+            comparison.piirra_reitti(mysteerimaze.get_visited())
+            print("labyrintin läpi kulkevan reitin käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(mysteerimaze.get_visited(), "k")
         elif resp == '2':
             self.reset_grid()
             self.build_grid()
@@ -139,12 +141,14 @@ class Maze():
             abmaze.carve_AB_maze(0)
             #print(abmaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
             pituus = len(abmaze.get_visited())
-            print("ruutuja labyrintissa:")
-            print(pituus)
+            print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(abmaze)
-            #print(comparison.jarjesta_ruudut_pystysuora(abmaze.get_visited()))
-            #print(comparison.jarjesta_ruudut_vaakasuora(abmaze.get_visited()))
-            comparison.test_lukumaarat(abmaze.get_visited())
+            comparison.test_lukumaarat(abmaze.get_visited(), "k")
+            print("labyrintissa olevien käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(abmaze.get_visited(), ".")
+            comparison.piirra_reitti(abmaze.get_visited())
+            print("labyrintin läpi kulkevan reitin käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(abmaze.get_visited(), "k")
         elif resp == '3':
             self.reset_grid()
             self.build_grid()
@@ -152,12 +156,14 @@ class Maze():
             wilson.carve_Wilson_maze(0)
             #print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
             pituus = len(wilson.get_visited())
-            print("ruutuja labyrintissa:")
-            print(pituus)
+            print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(wilson)
-            #print(comparison.jarjesta_ruudut_pystysuora(wilson.get_visited()))
-            #print(comparison.jarjesta_ruudut_vaakasuora(wilson.get_visited()))
-            comparison.test_lukumaarat(wilson.get_visited())
+            comparison.test_lukumaarat(wilson.get_visited(), "k")
+            print("labyrintissa olevien käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(wilson.get_visited(), ".")
+            comparison.piirra_reitti(wilson.get_visited())
+            print("labyrintin läpi kulkevan reitin käytävien pituudet:")
+            comparison.test_kaytavien_pituudet(wilson.get_visited(), "k")
         self.main_menu()
 
 if __name__ == "__main__":

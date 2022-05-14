@@ -16,16 +16,16 @@ class Config:
     PURPLE = (255, 0, 255)
 
     # setup maze variables
-    x_max = 20# number of cells in the x axis
-    y_max = 20# number of cells in the y axis
-    w = 20     # width of cell
+    x_max = 10# number of cells in the x axis
+    y_max = 10# number of cells in the y axis
+    w = 20    # width of cell, visualization of the solution path not visible if less than 4
     grid = []
     visited = {}
     stack = []
     solution = {}
 
     # values used with time function of the algorithms
-    NOPEA = 0.0001
-    KESKIVERTO = 0.005
-    HIDAS = 0.0100
+    ABMAZE = 0.0001
+    WILSON_MYSTEERI = 0.5
+    RATKAISU = 0.5
     NOLLA = 0.0

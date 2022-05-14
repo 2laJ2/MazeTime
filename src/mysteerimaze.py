@@ -30,7 +30,7 @@ class Mysteerimaze():
         del stack[(key)]
         #x, y = stack.pop()
         self._maze.single_yellow_cell(x, y)
-        time.sleep(Config.HIDAS)
+        time.sleep(Config.WILSON_MYSTEERI)
         self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -50,7 +50,7 @@ class Mysteerimaze():
             x, y = key
             #x, y = (random.choice(stack))
             self._maze.single_cell(x, y)
-            time.sleep(Config.HIDAS)
+            time.sleep(Config.WILSON_MYSTEERI)
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -68,7 +68,7 @@ class Mysteerimaze():
                 x, y = key
             #x, y = stack[0]
             self._maze.single_cell(x, y)
-            time.sleep(Config.HIDAS)
+            time.sleep(Config.WILSON_MYSTEERI)
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -101,7 +101,7 @@ class Mysteerimaze():
                 del stack[(key)]
                 #x, y = stack.pop()
                 self._maze.single_cell(x, y)
-                time.sleep(Config.HIDAS)
+                time.sleep(Config.WILSON_MYSTEERI)
                 self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -134,7 +134,7 @@ class Mysteerimaze():
                 x, y = key
                 #x, y = (random.choice(mysteeri_list))
             self._maze.single_cell(x, y)
-            time.sleep(Config.HIDAS)
+            time.sleep(Config.WILSON_MYSTEERI)
             self._maze.backtracking_cell(x, y)
         return stack, x, y
 
@@ -151,7 +151,7 @@ class Mysteerimaze():
         self._visited = {}
         self._visited[(x,y)] = (1, 1, 1, 1)
         while len(stack) > 0:
-            time.sleep(Config.HIDAS)
+            time.sleep(Config.WILSON_MYSTEERI)
             cell_list = []
             if (x + w, y) not in self._visited and (x + w, y) in grid:
                 cell_list.append("right")

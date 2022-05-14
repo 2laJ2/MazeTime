@@ -95,21 +95,26 @@ class Wilson():
         seed(seedling)
         w = self._w
         grid = self._grid
+        solution = []
+        stack = {}
+        x1 = self._x_max//2*w
+        y1 = self._y_max//2*w
         x = (randint(0, self._x_max-1))*w
         y = (randint(0, self._y_max-1))*w
         a = x
         b = y
-        solution = []
-        stack = {}
-        counter = 0
         self._not_visited = self.reverse_stack_builder(self._x_max, self._y_max)# labyrintin koko x, y
+        e, f, g, h = self._not_visited[(x1, y1)]
+        self._visited[(x1, y1)] = (e, f, g, h)
+        self._maze.single_purple_cell(x1, y1)
+        del self._not_visited[(x1, y1)]
         while len(self._not_visited) > 0:# len(self._not_visited) alussa = ruutujen lukumäärä alussa
             #len(self._visited) <= self._x_max*self._y_max:
             if (x, y) in self._not_visited:# jos ruutu on vapaa
                 stack[(x, y)] = self._not_visited[(x, y)]
                 del self._not_visited[(x, y)]# poista vapaiden ruutujen luettelosta
             self._maze.single_yellow_cell(x, y)
-            time.sleep(Config.HIDAS)
+            time.sleep(Config.WILSON_MYSTEERI)
             cell_list = []
 
             if (x + w, y) not in stack and (x + w, y) in grid:# ei nykyisessä polussa eli ei mennä taaksepäin
@@ -229,30 +234,17 @@ class Wilson():
 
             elif len(cell_list)==0:# jos tullaan nykyisen polun muodostamaan umpikujaan
 
-                if counter == 1:#ensimmäisen kerran jälkeen
-                    n = randint(0, len(self._not_visited)-1)
-                    stack_keys = self._not_visited.items()
-                    keys_iterator = iter(stack_keys)
-                    next(islice(keys_iterator, n, n), None)
-                    wanted_key = next(keys_iterator)
-                    key, value = wanted_key
-                    x, y = key
-                    for cell_list in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
-                        self._not_visited[(cell_list)] = (1, 1, 1, 1)
-                    stack = {}#[]# tyhjennetään polku
-                    solution = []# tyhjennetään piirrettävä reitti
-                if counter == 0:# ensimmäinen kerta
-                    stack = {}#[]# tyhjennetään polku
-                    solution = self.wilson_path(solution, a, b)# liittää polun labyrinttiin, tyhjentää polun
-                    n = randint(0, len(self._not_visited)-1)# hyppy
-                    stack_keys = self._not_visited.items()
-                    keys_iterator = iter(stack_keys)
-                    next(islice(keys_iterator, n, n), None)
-                    wanted_key = next(keys_iterator)
-                    key, value = wanted_key
-                    x, y = key
-                    #solution.append((x,y))# lisätään piirrettävään polkuun nykyinen ruutu
-                    counter += 1
+                n = randint(0, len(self._not_visited)-1)
+                stack_keys = self._not_visited.items()
+                keys_iterator = iter(stack_keys)
+                next(islice(keys_iterator, n, n), None)
+                wanted_key = next(keys_iterator)
+                key, value = wanted_key
+                x, y = key
+                for cell_list in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
+                    self._not_visited[(cell_list)] = (1, 1, 1, 1)
+                stack = {}#[]# tyhjennetään polku
+                solution = []# tyhjennetään piirrettävä reitti
 
     # testauksessa käytetty metodi, joka palauttaa labyrintin
     def get_visited(self):

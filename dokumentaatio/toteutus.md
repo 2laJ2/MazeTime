@@ -52,20 +52,22 @@ Aldous-Broderin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisi
 
 Myös Wilsonin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisia labyrintteja. Wilsonin algoritmilla on se ominaisuus, että sillä, millä perusteella aloitusruudut valitaan - voidaan yhtä hyvin valita satunnainen ruutu kuin vaikkapa ensimmäinen tyhjä ruutu vasemmalta oikealle ja alhaalta ylös - ei ole vaikutusta labyrintin rakenteeseen.
 1.  Valitaan aloitusruutu. Lisätään aloitusruutu polkuun, poistetaan se käymättömien ruutujen luettelosta ja merkitään osaksi labyrinttia.
-2.  Toistetaan niin kauan, kuin labyrintissä on jäljellä ruutuja, joissa ei ole käyty:
-    1. Valitaan satunnainen naapuri.
-    2. Jos tässä naapurissa ei ole vielä käyty:
-        1. Lisätään naapuri nykyisen polun listalle.
-        2. Poistetaan naapuri käymättömien ruutujen luettelosta.
-    3. Jos tässä naapurissa on jo käyty:
-        1. Jos naapuri on osa nykyistä polkua:
-            1. Kuljetun polun ruudut lisätään takaisin käymättömien ruutujen luetteloon.
-            2. Polku tyhjennetään.
-        2. Jos naapuri on osa labyrinttiä tai labyrintin ensimmäinen aloitusruutu:
-            1. Polku lisätään labyrinttiin:
-                1. Poistetaan kuljetun polun ruutujen väliset seinät.
-                2. Poistetaan ruudut käymättömien ruutujen luettelosta.
-            2. Polku tyhjennetään. 
+2. Toistetaan niin kauan, kuin labyrintissä on jäljellä ruutuja, joissa ei ole käyty:
+    1. Valitaan satunnainen ruutu ja lisätään se nykyisen polun listalle.
+    2. Poistetaan ruutu käymättömien ruutujen luettelosta.
+        1. Valitaan satunnainen naapuri.
+        2. Jos tässä naapurissa ei ole vielä käyty:
+            1. Lisätään naapuri nykyisen polun listalle.
+            2. Poistetaan naapuri käymättömien ruutujen luettelosta.
+        3. Jos tässä naapurissa on jo käyty:
+            1. Jos naapuri on osa nykyistä polkua:
+                1. Kuljetun polun ruudut lisätään takaisin käymättömien ruutujen luetteloon.
+                2. Polku tyhjennetään.
+            2. Jos naapuri on osa labyrinttiä tai labyrintin ensimmäinen aloitusruutu:
+                1. Polku lisätään labyrinttiin:
+                    1. Poistetaan kuljetun polun ruutujen väliset seinät.
+                    2. Poistetaan ruudut käymättömien ruutujen luettelosta.
+                2. Polku tyhjennetään. 
                 
 ## Algoritmien toteutus luokkien avulla
 
