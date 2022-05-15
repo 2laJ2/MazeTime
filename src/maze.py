@@ -123,7 +123,7 @@ class Maze():
             self.reset_grid()
             self.build_grid()
             mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w)
-            mysteerimaze.carve_mysteerimaze(0, resp)
+            mysteerimaze.carve_mysteerimaze(Config.SEED, resp)
             #print(mysteerimaze.get_visited())# palauttaa labyrintin komentorivillä
             pituus = len(mysteerimaze.get_visited())
             print("ruutuja labyrintissa:", pituus)
@@ -138,7 +138,7 @@ class Maze():
             self.reset_grid()
             self.build_grid()
             abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
-            abmaze.carve_AB_maze(0)
+            abmaze.carve_AB_maze(Config.SEED)
             #print(abmaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
             pituus = len(abmaze.get_visited())
             print("ruutuja labyrintissa:", pituus)
@@ -153,8 +153,8 @@ class Maze():
             self.reset_grid()
             self.build_grid()
             wilson = Wilson(self, self._x_max, self._y_max, self._w)
-            wilson.carve_Wilson_maze(0)
-            #print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+            wilson.carve_Wilson_maze(Config.SEED)
+            print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
             pituus = len(wilson.get_visited())
             print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(wilson)

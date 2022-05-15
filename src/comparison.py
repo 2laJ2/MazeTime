@@ -115,18 +115,18 @@ class Comparison():
                 umpikujat_lista[each] = (a, b, c, d)
         umpikujat = {}
         mutkia, pituus = 0, 0
-        for each in umpikujat_lista:
-            a, b, c, d = umpikujat_lista[each]
-            x, y = each
+        for key, value in umpikujat_lista.items():
+            a, b, c, d = value
+            x, y = key
             mutkia = 0
             pituus = 1
             stack = [(x, y)]
-            while (stack != []):
+            while stack:
                 n = len(stack)-1
                 x, y = stack[n]
                 a, b, c, d = new_visited[(x, y)]
 
-                if a == 0 and (x - self._w, y) not in stack and (x - self._w, y) in new_visited: # mene vasemmalle
+                if a == 0 and (x - self._w, y) not in stack and (x - self._w, y) in new_visited: # vasemmalle
                     x -= self._w
                     a, b, c, d = new_visited[(x, y)]
                     stack.append((x, y))
@@ -143,7 +143,7 @@ class Comparison():
                         #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
-                elif b == 0 and (x + self._w, y) not in stack and (x + self._w, y) in new_visited: # mene oikealle
+                elif b == 0 and (x + self._w, y) not in stack and (x + self._w, y) in new_visited: # oikealle
                     x += self._w
                     a, b, c, d = new_visited[(x, y)]
                     stack.append((x, y))
@@ -160,7 +160,7 @@ class Comparison():
                         #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
-                elif c == 0 and (x, y - self._w) not in stack and (x, y - self._w) in new_visited: # mene ylös
+                elif c == 0 and (x, y - self._w) not in stack and (x, y - self._w) in new_visited: # ylös
                     y -= self._w
                     a, b, c, d = new_visited[(x, y)]
                     stack.append((x, y))
@@ -177,7 +177,7 @@ class Comparison():
                         #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
-                elif d == 0 and (x, y + self._w) not in stack and (x, y + self._w) in new_visited: # mene alas
+                elif d == 0 and (x, y + self._w) not in stack and (x, y + self._w) in new_visited: # alas
                     y += self._w
                     a, b, c, d = new_visited[(x, y)]
                     stack.append((x, y))
@@ -194,13 +194,12 @@ class Comparison():
                         #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
-            umpikujat[each] = (mutkia, pituus) # mutkia / umpikujan pituus
-        if tulostus == "k": 
+            umpikujat[key] = (mutkia, pituus) # mutkia / umpikujan pituus
+        if tulostus == "k":
             print("Labyrintin umpikujat; koordinaatit, mutkat ja pituus:")
-            for each in umpikujat:
-                value = umpikujat[each]
+            for key, value in umpikujat.items():
                 i, j = value
-                x, y = each
+                x, y = key
                 print("(",x//self._w,",",y//self._w,") ", i, j)
             print("")
         return poistettavat_polut
@@ -209,7 +208,7 @@ class Comparison():
         new_visited = visited
         umpikujien_lkm = self.test_lukumaarat(new_visited, ".")
         counter = umpikujien_lkm
-        while (counter > 0):
+        while counter > 0:
             poistettavat_polut = self.test_umpikujien_pituudet(new_visited, "k")
             for each in poistettavat_polut:
                 for i in range(0, len(each)):
@@ -235,7 +234,8 @@ class Comparison():
             reitti.append((x//self._w, y//self._w))
             self._maze.single_cell(x, y)
             time.sleep(Config.RATKAISU)
-        print("labyrintin läpi ruudusta 1 , 1 ruutuun", self._x_max, ",", self._y_max, "kulkevan reitin pituus on", len(reitti), "ruutua:")
+        print("labyrintin läpi ruudusta 1 , 1 ruutuun", self._x_max, ",", self._y_max,
+        "kulkevan reitin pituus on", len(reitti), "ruutua:")
         print(reitti)
         print("")
 
@@ -259,8 +259,8 @@ class Comparison():
                     kaytavat[pituus] = lkm
                 pituus = 1
                 lkm = 1
-        for each in kaytavat:
-            mutkat += kaytavat[each]
+        for key, value in kaytavat.items():
+            mutkat += value
         return kaytavat, mutkat
 
     def test_kaytavien_pituudet(self, visited, tulostus):
@@ -294,8 +294,8 @@ class Comparison():
                     kaytavat[pituus] = lkm
                 pituus = 1
                 lkm = 1
-        for each in kaytavat:
-            mutkat += kaytavat[each]
+        for key, value in kaytavat.items():
+            mutkat += value
         mutkat -= 1
         print("vaakasuorien käytävien lukumäärät:")
         sorted_kaytavat = sorted(kaytavat.items(), key = lambda item: item[0])
