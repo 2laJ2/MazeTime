@@ -23,62 +23,67 @@ class Maze():
         ###### pygame loop #######
         RUNNING = True
         while RUNNING:
-            # keep running at the at the right speed
             self.clock.tick(Config.FPS)
-            # process input (events)
             for event in pygame.event.get():
-                # check for closing the window
                 if event.type == pygame.QUIT:
                     RUNNING = False
 
-    # reset the grid
     def reset_grid(self):
+
+        """ Alustaa uudelleen Pygame-ikkunan, johon labyrintti piirretään. """
+
         pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
         pygame.display.set_caption("Python Labyrintti")
 
-    # build the grid
     def build_grid(self):
+
+        """ Piirtää valkoisen ruudukon, johon labyrintti piirretään. """
+
         w = self._w
         x, y = 0, 0
         for i in range(1, self._y_max + 1):
-            x = w          # set x coordinate to start position
-            y = y + w       # start a new row
+            x = w          # x koordinaatin asetus aloituskohtaan
+            y = y + w      # uuden rivin aloitus
             for j in range(1, self._x_max + 1):
-                pygame.draw.line(self.screen, Config.WHITE, [x, y], [x + w, y])           # top of cell
-                pygame.draw.line(self.screen, Config.WHITE, [x + w, y], [x + w, y + w])   # right of cell
-                pygame.draw.line(self.screen, Config.WHITE, [x + w, y + w], [x, y + w])   # bottom of cell
-                pygame.draw.line(self.screen, Config.WHITE, [x, y + w], [x, y])           # left of cell
-                self._grid.append((x,y))                                      # add cell to grid list
-                x = x + w                                                     # move cell to new position
+                pygame.draw.line(self.screen, Config.WHITE, [x, y], [x + w, y])
+                pygame.draw.line(self.screen, Config.WHITE, [x + w, y], [x + w, y + w])
+                pygame.draw.line(self.screen, Config.WHITE, [x + w, y + w], [x, y + w])
+                pygame.draw.line(self.screen, Config.WHITE, [x, y + w], [x, y])
+                self._grid.append((x,y))
+                x = x + w
+
+    """ Seuraavilla metodeilla poistetaan ruutujen välinen seinä kuljettaessa seuraavaan ruutuun. """
 
     def push_up(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y - w + 1, w - 1, (2*w) - 1), 0)
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x + 1, y - w + 1, w - 1, (2*w) - 1), 0)
         pygame.display.update()
 
     def push_down(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, w - 1, (2*w) - 1), 0)
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x + 1, y + 1, w - 1, (2*w) - 1), 0)
         pygame.display.update()
 
     def push_left(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x - w + 1, y + 1, (2*w) - 1, w - 1), 0)
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x - w + 1, y + 1, (2*w) - 1, w - 1), 0)
         pygame.display.update()
 
     def push_right(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, (2*w) - 1, w - 1), 0)
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x + 1, y + 1, (2*w) - 1, w - 1), 0)
         pygame.display.update()
 
-    def single_cell(self, x, y): # draw a single width cell
+    """ Seuraavilla metodeilla piirretään yksi värillinen ruutu. """
+
+    def single_cell(self, x, y):
         w = self._w
         pygame.draw.rect(self.screen, Config.BLUE, (x + 1 + w//6, y + 1 + w//6, w - 2 - w//3, w - 2 - w//3), 0)
         pygame.display.update()
 
     def single_purple_cell(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x + 1, y + 1, w - 2, w - 2), 0)
         pygame.display.update()
 
     def single_yellow_cell(self, x, y):
@@ -88,20 +93,23 @@ class Maze():
 
     def backtracking_cell(self, x, y):
         w = self._w
-        pygame.draw.rect(self.screen, Config.PURPLE, (x + 1, y + 1, w - 2, w - 2), 0)
-        pygame.display.update() # has visited cell
+        pygame.draw.rect(self.screen, Config.LABYRINTH_COLOUR, (x + 1, y + 1, w - 2, w - 2), 0)
+        pygame.display.update()
 
     def backtracking_blue_cell(self, x, y):
         w = self._w
         pygame.draw.rect(self.screen, Config.BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
         pygame.display.update()
 
-    def solution_cell(self, x,y): # used to show the solution
+    def solution_cell(self, x,y):
         w = self._w
         pygame.draw.rect(self.screen, Config.YELLOW, (x + 8, y + 8, 5, 5), 0)
-        pygame.display.update() # has visited cell
+        pygame.display.update()
 
     def main_menu(self):
+
+        """ Käyttäjälle komentoruudulla näkyvän valikon luominen ja ohjelman käynnistys. """
+
         print(f"{' VALITSE ALGORITMI ':_^30}")
         print("1. Mysteerialgoritmi")
         print("2. Aldous-Broder")
@@ -124,7 +132,7 @@ class Maze():
             self.build_grid()
             mysteerimaze = Mysteerimaze(self, self._x_max, self._y_max, self._w)
             mysteerimaze.carve_mysteerimaze(Config.SEED, resp)
-            #print(mysteerimaze.get_visited())# palauttaa labyrintin komentorivillä
+            #print(mysteerimaze.get_visited())# tulostaa labyrintin komentorivillä
             pituus = len(mysteerimaze.get_visited())
             print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(mysteerimaze)
@@ -139,7 +147,7 @@ class Maze():
             self.build_grid()
             abmaze = Abmaze(self, self._x_max, self._y_max, self._w)
             abmaze.carve_AB_maze(Config.SEED)
-            #print(abmaze.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+            #print(abmaze.get_visited())
             pituus = len(abmaze.get_visited())
             print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(abmaze)
@@ -154,7 +162,7 @@ class Maze():
             self.build_grid()
             wilson = Wilson(self, self._x_max, self._y_max, self._w)
             wilson.carve_Wilson_maze(Config.SEED)
-            print(wilson.get_visited()) # tällä komennolla sovellus palauttaa labyrintin
+            #print(wilson.get_visited())
             pituus = len(wilson.get_visited())
             print("ruutuja labyrintissa:", pituus)
             comparison = Comparison(wilson)

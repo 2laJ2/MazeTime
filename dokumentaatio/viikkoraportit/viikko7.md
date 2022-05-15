@@ -18,11 +18,11 @@ Päivitän testauksen Wilsonin labyrintin osalta ja siirsin kullekin algoritmill
     E           TypeError: 'method' object is not subscriptable
 Etsin ratkaisua internetistä Googlen hakukoneen avulla noin tunnin ajan, ja kokeilin useita eri ohjeita, mutta en löytänyt toimivaa ratkaisua tähän virheilmoitukseen. Tästä syystä päätin olla sisällyttämättä _comparison.py_-luokan metodeja algoritmien mock-testaukseen. Poistin tyhjän _maze_test.py_-luokan tarpeettomana. Todennäköisesti joudun luopumaan sekä _maze.py_- että _comparison.py_-luokkien perusteellisesta testauksesta käytettävissä olevan ajan loppumisen vuoksi. Tein Pylint-tarkistuksen ehdottamat korjaukset. Työaikaa kului yhteensä noin 2,5.
 
-Seuraavaksi täydennän ohjelman kommentoinnin. 
+Nimesin konfiguraatiotiedostossa olevan, labyrintin piirtämiseen käytetyn värin PURPLE nimellä LABYRINTH_COLOUR, jotta piirrettävän labyrintin värin voi muuttaa konfiguraatiotiedostossa vaihtamalla tälle muuttujalle määritellyt arvot. Tiedostossa on eri värien arvot annettu valmiina, mikä tekee värin vaihtamisesta helppoa. Konfiguraatiotiedostossa voi myös halutessaan määritellä käytetyt värisävyt uudelleen tai sinne voi lisätä kokonaan uusia värejä ja värisävyjä. Kävin läpi ja täydensin ohjelman kommentoinnin. Päivitin myös toteutusdokumentin. Työaikaa kului yhteensä noin 5 tuntia.
 
-Seuraavaksi päivitän toteutus- ja testausdokumentit, lisään testausdokumenttiin graafisen esityksen yksikkö- ja vertailevan testauksen osalta ja kirjoitan käyttöohjeen.
+Seuraavaksi päivitän testausdokumentin ja lisään siihen graafisen esityksen yksikkö- ja vertailevan testauksen osalta.
 
+Lopuksi kirjoitan käyttöohjeen.
 
-
-Tällä viikolla työaikaa on kulunut yhteensä noin 19 tuntia.
+Tällä viikolla työaikaa on kulunut yhteensä noin 22 tuntia.
 

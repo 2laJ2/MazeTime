@@ -68,7 +68,17 @@ Myös Wilsonin algoritmilla voidaan luoda rakenteeltaan yhtenäisiä ja tasaisia
                     1. Poistetaan kuljetun polun ruutujen väliset seinät.
                     2. Poistetaan ruudut käymättömien ruutujen luettelosta.
                 2. Polku tyhjennetään. 
-                
+
+### Dead end-filling
+
+Labyrintin läpi kulkevan reitin etsiminen on toteutettu Dead end-filling -algoritmin periaatetta mukaillen. Dead end-filling -algoritmilla etsitään labyrintin läpi kulkeva reitti täyttämällä kaikki labyrintissä olevat umpikujat ruutu kerrallaan:
+1.  Etsitään ja "täytetään" kaikki labyrintissä olevat umpikujaruudut merkitsemällä kaikkien seinien arvoksi 1.
+2.  "Täytetään" polku jokaisesta umpikujasta seuraavaa risteystä edeltävään ruutuun asti merkitsemällä kaikkien seinien arvoksi 1.
+
+Algoritmi käy labyrintin läpi niin monta kertaa, että siinä ei ole enää umpikujia jäljellä. Umpikujien poistamisen seurauksena muodostuu uusia umpikujia (kun umpikuja haarautuu vähintään kahteen umpikujaan, algoritmi poistaa ensin kaikki umpikujan haarat risteykseen asti, jolloin risteyksestä tulee uusi umpikuja, joka poistetaan seuraavalla kierroksella).
+
+Dead end-filling -algoritmi ei voi vahingossa katkaista etsittyä reittiä, koska vain ja ainoastaan umpikuja ja umpikujaan johtava käytävä suljetaan seinällä. Algoritmi ei pysähdy, ennenkuin kaikki alkuperäiset ja prosessin aikana muodostuvat uudet umpikujat on poistettu, jolloin jäljelle jää vain labyrintin läpi kulkeva reitti tai reitit, mikäli labyrintti ei ole täydellinen, vaan siinä on mahdollista kulkea ympyrää. Tässä harjoitustyössä luoduissa labyrinteissä käytetyt algoritmit rakentavat labyrintteja, joissa on vain yksi mahdollinen labyrintin läpi kulkeva reitti.
+
 ## Algoritmien toteutus luokkien avulla
 
 ### Mysteerimaze-luokka
@@ -178,14 +188,36 @@ Konstruktori: Comparison(algoritmiolio)
 * metodi, joka luo listan (x, y) koordinaateista ensisijaisesti y-koordinaatin, toissijaisesti x-koordinaatin perusteella
 * käyttää listan luomisessa Comparison-oliolle parametrina annetun algoritmiolion x_max-, y_max- ja w-arvoja
 * palauttaa valmiin listan
-6. test_lukumaarat(visited)
+6. test_lukumaarat(visited, tulostus)
 * metodi, joka laskee, kuinka moni labyrintin ruuduista on umpikuja, neljän käytävän risteys, kolmen käytävän risteys, mutka, vaakasuora käytävä tai pystysuora käytävä
 * tulostaa laskemiensa ruutujen lukumäärät komentoruudulla
-7. test_umpikujien_pituudet
-* metodi, joka laskee umpikujien pituudet
-8. test_kaytavien_pituudet
-* metodi, joka laskee pystysuorien ja vaakasuorien käytävien pituudet
-9. get_algoritmi
+* tulostaa mutkien lukumäärän komentoruudulle, mikäli annettu tulostusvalinta on "k"
+* palauttaa umpikujien lukumäärät
+7. test_umpikujien_pituudet(visited, tulostus)
+* metodi, joka laskee jokaisen umpikujan pituuden ja mutkien lukumäärät
+* mikäli annettu tulostusvalinta on "k", tulostaa komentoruudulle jokaisen umpikujan koordinaatit, mutkien lukumäärän ja umpikujan pituuden
+* palauttaa listan poistettavista poluista, listassa on listoina kunkin umpikujan ruutujen koordinaatit
+8. etsi_reitti(visited)
+* etsii labyrintin läpi kulkevan reitin hyödyntämällä metodeja test_lukumäärät ja test_umpikujien_pituudet
+* poistaa labyrintista kaikki umpikujat yksi umpikuja kerrallaan järjestyksessä
+* ajaa metodin test_umpikujien_pituudet niin monta kertaa, että tämä palauttaa tyhjän poistettavien umpikujien listan
+* palauttaa jäljelle jääneen labyrintin, joka on labyrintin läpikulkeva reitti
+* palautettavan reitin ruudut ovat siinä järjestyksessä, kuin ne ovat alunperin labyrinttiin tallennetut, metodi ei järjestä reitin ruutuja kulkemisjärjestykseen
+9. piirra_reitti(visited)
+* metodi, joka hakee metodin etsi_reitti avulla labyrintin läpi kulkevan reitin ja piirtää sen Pygame-ikkunassa olevaan valmiiseen labyrinttiin ruutu kerrallaan siinä järjestyksessä, kuin reittiin kuuluvat ruudut on tallennettu
+* piirtää reitin labyrintin ensimmäisestä ruudusta (x, y) = (1, 1) labyrintin viimeiseen ruutuun (x_max, y_max)
+* tulostaa komentoruudulle reitin alku- ja loppukoordinaatit ja reitin pituuden
+* tulostaa reitin koordinaatit listana komentoruudulle
+10. mittaa_pituudet(visited)
+* metodi, joka etsii parametrina annetun labyrintin käytävät yksi kerrallaan annetussa järjestyksessä
+* mittaa kunkin käytävän pituuden ja mutkien lukumäärät
+* palauttaa käytävien pituudet ja lukumäärät listana ja mutkien lukumäärät
+11. test_kaytavien_pituudet(visited, tulostus)
+* metodi, joka laskee pystysuorien ja vaakasuorien käytävien pituudet ja mutkien lukumäärät
+* käyttää pystysuorien käytävien mittaamiseen apumetodia mittaa_pituudet
+* tulostaa komentoruudulle pysty- ja vaakasuorien käytävien pituudet ja lukumäärät
+* tulostaa lopuksi mutkien lukumäärän, mikäli annettu tulostusparametri on string "k"
+12. get_algoritmi
 * metodi, joka palauttaa Comparison-oliolle annetun algoritmiolion
 
 ## Lähteet
@@ -194,6 +226,7 @@ Konstruktori: Comparison(algoritmiolio)
 - [Lähdekoodi: Python Maze Generator Program, Davis MT](https://github.com/tonypdavis/PythonMazeGenerator/blob/master/pygame%20maze%20generator%20with%20solution.py)
 - [Wikipedia, labyrinttien rakentamiseen käytetyt algoritmit](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 - [Wikipedia, labyrinttien ratkaisemiseen käytetyt algoritmit](https://en.wikipedia.org/wiki/Maze-solving_algorithm)
+- [Dead end-Filling](https://en.wikipedia.org/wiki/Maze-solving_algorithm#Dead-end_filling)
 - [Lisätietoa labyrinttien rakentamiseen liittyvistä koodeista](http://www.astrolog.org/labyrnth/algrithm.htm)
 - [Video: 8 Maze Generating Algorithms in 3 Minutes, Ready Set Python](https://www.youtube.com/watch?v=sVcB8vUFlmU)
 - [Under the Hood, The Buckblog, Jamis Buck](https://weblog.jamisbuck.org/under-the-hood/)

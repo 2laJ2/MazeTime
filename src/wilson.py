@@ -18,23 +18,46 @@ class Wilson():
         self._not_visited = {}
         self._visited = {}
 
-    # apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty
     def reverse_stack_builder(self, x_max, y_max):
+
+        """ Apumetodi, jolla luodaan lista ruuduista, joissa ei ole käyty.
+
+        Args:
+            x_max: haluttu labyrintin leveys annetaan x-koordinaattien lukumääränä.
+            y_max: haluttu labyrintin korkeus annetaan y-koordinaattien lukumääränä.
+        Returns:
+            sanakirjamuodossa oleva lista ruuduista, joissa ei ole käyty. Kaikilla
+            koordinaatistossa olevilla ruuduilla on neljä seinää.
+        """
+
         w = self._w
         stack = {}
         for i in range(1, x_max+1):
-            x = i*w
+            x = i * w
             for j in range(1, y_max+1):
-                y = j*w
-                stack[(x,y)] = (1,1,1,1)
+                y = j * w
+                stack[(x, y)] = (1, 1, 1, 1)
         return stack
 
-    # apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku
     def wilson_path(self, solution, a, b):
+
+        """ Apumetodi, jolla liitetään viimeksi kuljettu polku labyrinttiin ja tyhjennetään polku.
+            Käy kuljetun reitin uudelleen läpi ruutu kerrallaan, piirtää Pygame-ikkunan ruudukkoon
+            kulkureitin poistamalla reitillä olevien ruutujen ruutujen väliset seinät ja liittää
+            reitin valmiiseen labyrinttiin sanakirjamuodossa.
+
+        Args:
+            solution: lista stringinä tallennetuista kulkusuunnista,
+            a: polun ensimmäisen ruudun x-koordinaatti,
+            b: polun ensimmäisen ruudun y-koordinaatti.
+        Returns:
+            tyhjän polun.
+        """
+
         self._visited[(a, b)] = (1, 1, 1, 1)
         w = self._w
         self._maze.single_purple_cell(a, b)
-        for cell in solution:# käydään uudelleen reitti läpi ja liitetään se valmiiseen labyrinttiin
+        for cell in solution:
             if  cell == "right":
                 self._maze.push_right(a, b)
                 if (a, b) in self._visited:
@@ -90,8 +113,18 @@ class Wilson():
 
         return []
 
-    # metodi, joka luo parametrina annetulla seed-arvolla labyrintin
     def carve_Wilson_maze(self, seedling):
+
+        """ Metodi, joka luo ja piirtää labyrintin Pygame-ikkunan ruudukkoon Wilsonin algoritmilla.
+            Labyrintti tallennetaan muodossa (x, y) = (a, b, c, d), missä (x, y) on ruudun koordinaatti
+            tuplé-muodossa ja arvot a, b, c ja d vastaavat kyseisen ruudun seiniä järjestyksessä vasen,
+            oikea, ylös ja alas. Seinää vastaa arvo 1, avointa kulkua arvo 0.
+
+        Args:
+            seedling:   Seed-arvo, joka on määritelty config.py-tiedostossa. Käyttäjä voi halutessaan vaihtaa
+                        algoritmin käyttämää seed-arvoa konfiguraatiotiedostossa.
+        """
+
         seed(seedling)
         w = self._w
         grid = self._grid
@@ -103,16 +136,15 @@ class Wilson():
         y = (randint(0, self._y_max-1))*w
         a = x
         b = y
-        self._not_visited = self.reverse_stack_builder(self._x_max, self._y_max)# labyrintin koko x, y
+        self._not_visited = self.reverse_stack_builder(self._x_max, self._y_max)
         e, f, g, h = self._not_visited[(x1, y1)]
         self._visited[(x1, y1)] = (e, f, g, h)
         self._maze.single_purple_cell(x1, y1)
         del self._not_visited[(x1, y1)]
-        while len(self._not_visited) > 0:# len(self._not_visited) alussa = ruutujen lukumäärä alussa
-            #len(self._visited) <= self._x_max*self._y_max:
-            if (x, y) in self._not_visited:# jos ruutu on vapaa
+        while len(self._not_visited) > 0:
+            if (x, y) in self._not_visited:
                 stack[(x, y)] = self._not_visited[(x, y)]
-                del self._not_visited[(x, y)]# poista vapaiden ruutujen luettelosta
+                del self._not_visited[(x, y)]
             self._maze.single_yellow_cell(x, y)
             time.sleep(Config.WILSON_MYSTEERI)
             cell_list = []
@@ -123,13 +155,13 @@ class Wilson():
             if (x - w, y) not in stack and (x - w, y) in grid:
                 cell_list.append("left")
 
-            if (x , y + w) not in stack and (x , y + w) in grid:
+            if (x, y + w) not in stack and (x, y + w) in grid:
                 cell_list.append("down")
 
-            if (x , y - w) not in stack and (x , y - w) in grid:
+            if (x, y - w) not in stack and (x, y - w) in grid:
                 cell_list.append("up")
 
-            if len(cell_list)>0:
+            if len(cell_list) > 0:
                 cell_chosen = (random.choice(cell_list))
 
                 if  cell_chosen == "right":
@@ -140,7 +172,7 @@ class Wilson():
                         first_key = next(keys_iterator)
                         key, value = first_key
                         a, b = key
-                        solution = self.wilson_path(solution, a, b)# liittää polun labyrinttiin, tyhjentää sen
+                        solution = self.wilson_path(solution, a, b)
                         stack = {}
                         if len(self._not_visited) != 0:
                             n = randint(0, len(self._not_visited)-1)
@@ -232,7 +264,7 @@ class Wilson():
                         stack[(x, y)] = (1, 0, 1, 1)
                         solution.append(cell_chosen)
 
-            elif len(cell_list)==0:# jos tullaan nykyisen polun muodostamaan umpikujaan
+            elif len(cell_list) == 0:# jos tullaan nykyisen polun muodostamaan umpikujaan
 
                 n = randint(0, len(self._not_visited)-1)
                 stack_keys = self._not_visited.items()
@@ -241,11 +273,17 @@ class Wilson():
                 wanted_key = next(keys_iterator)
                 key, value = wanted_key
                 x, y = key
-                for cell_list in stack:# merkitään kuljetun polun ruudut takaisin ei käydyiksi
+                for cell_list in stack:
                     self._not_visited[(cell_list)] = (1, 1, 1, 1)
-                stack = {}#[]# tyhjennetään polku
-                solution = []# tyhjennetään piirrettävä reitti
+                stack = {}
+                solution = []
 
-    # testauksessa käytetty metodi, joka palauttaa labyrintin
     def get_visited(self):
+
+        """ Testauksessa käytetty metodi, joka palauttaa labyrintin.
+
+        Returns:
+            algoritmin luoman ja tallentaman valmiin labyrintin sanakirjamuodossa.
+        """
+
         return self._visited

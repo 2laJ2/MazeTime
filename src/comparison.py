@@ -13,10 +13,13 @@ class Comparison():
         self._w = self._algoritmi._w
         self._maze = self._algoritmi._maze
 
-    def test_running_time(self):# mittaa algoritmiin kuluvan keskimääräisen ajan valituilla parametreilla
+    def test_running_time(self):
+
+        """ Algoritmin suoritukseen valituilla parametreilla kuluvan keskimääräisen ajan mittaava metodi."""
+
         statistics = []
         result = 0
-        for i in range (1, 3):
+        for i in range(1, 3):
             start = time.time()
             self._algoritmi.carve_AB_maze(0)
             end = time.time()
@@ -27,10 +30,32 @@ class Comparison():
         return result
 
     def jarjesta_ruudut_pystysuora(self, visited):
-        jarjestetty = sorted(visited.items(), key = lambda key: key [0])
+
+        """ Järjestää labyrintin ruudut ensisijaisesti x-koordinaatin, toissijaisesti y-koordinaatin
+            perusteella vasemmalta oikealle sarakkeittain.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+        Returns:
+            jarjestetty: ensisijaisesti tuplé-muodossa olevan avaimen x-koordinaatin, toissijaisesti
+                avaimen y-koordinaatin perusteella järjestetty labyrintti.
+        """
+
+        jarjestetty = sorted(visited.items(), key=lambda key: key[0])
         return jarjestetty
 
     def jarjesta_ruudut_vaakasuora(self, visited):
+
+        """ Järjestää labyrintin ruudut ensisijaisesti y-koordinaatin, toissijaisesti x-koordinaatin
+            perusteella vasemmalta oikealle riveittäin. Käyttää apumetodia muodosta_y_koordinaatti_lista.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+        Returns:
+            jarjestetty: ensisijaisesti tuplé-muodossa olevan avaimen x-koordinaatin, toissijaisesti
+                avaimen y-koordinaatin perusteella järjestetty labyrintti.
+        """
+
         new_visited = visited
         jarjestetty = {}
         koordinaatit_lista = self.muodosta_y_koordinaatti_lista()
@@ -42,33 +67,63 @@ class Comparison():
         return jarjestetty
 
     def muodosta_x_koordinaatti_lista(self):
+
+        """ Luo tuplé-muotoisen listan labyrintin koordinaateista (x, y) ensisijaisesti x-koordinaatin,
+            toissijaisesti y-koordinaatin perusteella vasemmalta oikealle sarakkeittain.
+
+        Returns:
+            koordinaatit_lista: tuplé-muodossa oleva, ensisijaisesti x-koordinaatin, toissijaisesti
+                y-koordinaatin perusteella järjestetty lista labyrintin koordinaateista.
+        """
+
         x_list = []
-        for i in range (1, self._x_max + 1):
-            x_list.append(i*self._w)
+        for i in range(1, self._x_max + 1):
+            x_list.append(i * self._w)
         y_list = []
-        for i in range (1, self._y_max + 1):
-            y_list.append(i*self._w)
+        for i in range(1, self._y_max + 1):
+            y_list.append(i * self._w)
         koordinaatit_lista = []
-        for x in range (0, len(x_list)):
-            for y in range (0, len(y_list)):
-                koordinaatit_lista.append((x_list[x],y_list[y]))
+        for x in range(0, len(x_list)):
+            for y in range(0, len(y_list)):
+                koordinaatit_lista.append((x_list[x], y_list[y]))
         return koordinaatit_lista
 
     def muodosta_y_koordinaatti_lista(self):
+
+        """ Luo tuplé-muotoisen listan labyrintin koordinaateista (x, y) ensisijaisesti y-koordinaatin,
+            toissijaisesti x-koordinaatin perusteella vasemmalta oikealle riveittäin.
+
+        Returns:
+            koordinaatit_lista: tuplé-muodossa oleva, ensisijaisesti y-koordinaatin, toissijaisesti
+                x-koordinaatin perusteella järjestetty lista labyrintin koordinaateista.
+        """
+
         x_list = []
-        for i in range (1, self._x_max + 1):
+        for i in range(1, self._x_max + 1):
             x_list.append(i*self._w)
         y_list = []
-        for i in range (1, self._y_max + 1):
+        for i in range(1, self._y_max + 1):
             y_list.append(i*self._w)
         koordinaatit_lista = []
-        for y in range (0, len(x_list)):
-            for x in range (0, len(y_list)):
-                koordinaatit_lista.append((x_list[x],y_list[y]))
+        for y in range(1, len(y_list)):
+            for x in range(1, len(x_list)):
+                koordinaatit_lista.append((x_list[x], y_list[y]))
         return koordinaatit_lista
 
-    # yleiskuvan labyrintin rakenteesta antava metodi
     def test_lukumaarat(self, visited, tulostus):
+
+        """ Antaa yleiskuvan parametrina annetun labyrintin rakenteesta. Käy läpi jokaisen ruudun ja
+            tulostaa komentoruudulle, kuinka monta ruutua on umpikujia, neljän käytävän risteyksiä,
+            kolmen käytävän risteyksiä, mutkia, vaakasuoria käytäväruutuja ja pystysuoria käytäväruutuja.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti,
+            tulostus: mikäli annettu string = "k", mutkien lukumäärä tulostetaan komentoruudulle.
+            Käyttäjävalikko antaa parametrin automaattisesti, valinta ei näy käyttäjälle.
+        Returns:
+            umpikujat: umpikujien lukumäärä annetussa labyrintissa.
+        """
+
         new_visited = visited
         umpikujat = 0
         risteykset_4 = 0
@@ -103,8 +158,25 @@ class Comparison():
             print("")
         return umpikujat
 
-    # Labyrintin umpikujien mutkaisuuden ja pituuden seuraavaan risteykseen asti mittaava metodi
     def test_umpikujien_pituudet(self, visited, tulostus):
+
+        """ Mittaa parametrina annetun labyrintin rakenteessa olevien umpikujien mutkaisuuden ja pituuden
+            seuraavaan risteykseen asti. Metodi etenee umpikujaa pitkin seuraavaan risteykseen asti, lisää
+            umpikujassa olevien ruutujen koordinaatit (x, y) listana poistettavien polkujen listaan
+            poistettavat_polut ja muuttaa risteysruudun umpikujan puoleisen aukon seinäksi, mikä mahdollistaa
+            metodin hyödyntämisen labyrintin läpi kulkevan reitin löytämiseksi, mutta vaikuttaa samalla mm.
+            umpikujien, niiden mutkaisuuden ja pituuden laskelmiin ja tulostuksiin. Jos seiniä ei muuteta,
+            laskelmat ovat oikein kuhunkin risteykseen asti.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti,
+            tulostus: mikäli annettu string = "k", Labyrintin umpikujien koordinaatit (x, y), mutkien
+            lukumäärä ja umpikujan pituus tulostetaan komentoruudulle. Käyttäjävalikko antaa parametrin
+            automaattisesti, valinta ei näy käyttäjälle.
+        Returns:
+            poistettava_polut: lista umpikujista, poistettavien ruutujen koordinaateista (x, y) tuplé-muodossa
+        """
+
         new_visited = visited
         koordinaatit_lista = self.muodosta_x_koordinaatti_lista()
         umpikujat_lista = {}
@@ -137,10 +209,8 @@ class Comparison():
                         mutkia += 1
                     else:
                         new_visited[(x, y)] = (a, 1, c, d)
-                        #print("New wall:", x//self._w, y//self._w, a, b, c, d, visited[(x, y)])
                         if len(stack) > 1:
                             stack.pop()
-                        #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
                 elif b == 0 and (x + self._w, y) not in stack and (x + self._w, y) in new_visited: # oikealle
@@ -154,10 +224,8 @@ class Comparison():
                         mutkia += 1
                     else:
                         new_visited[(x, y)] = (1, b, c, d)
-                        #print("New wall:", x//self._w, y//self._w, a, b, c, d, visited[(x, y)])
                         if len(stack) > 1:
                             stack.pop()
-                        #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
                 elif c == 0 and (x, y - self._w) not in stack and (x, y - self._w) in new_visited: # ylös
@@ -171,10 +239,8 @@ class Comparison():
                         mutkia += 1
                     else:
                         new_visited[(x, y)] = (a, b, c, 1)
-                        #print("New wall:", x//self._w, y//self._w, a, b, c, d, visited[(x, y)])
                         if len(stack) > 1:
                             stack.pop()
-                        #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
                 elif d == 0 and (x, y + self._w) not in stack and (x, y + self._w) in new_visited: # alas
@@ -188,10 +254,8 @@ class Comparison():
                         mutkia += 1
                     else:
                         new_visited[(x, y)] = (a, b, 1, d)
-                        #print("New wall:", x//self._w, y//self._w, a, b, c, d, visited[(x, y)])
                         if len(stack) > 1:
                             stack.pop()
-                        #print("umpikuja", stack)
                         poistettavat_polut.append(stack)
                         stack = []
             umpikujat[key] = (mutkia, pituus) # mutkia / umpikujan pituus
@@ -200,11 +264,22 @@ class Comparison():
             for key, value in umpikujat.items():
                 i, j = value
                 x, y = key
-                print("(",x//self._w,",",y//self._w,") ", i, j)
+                print("(", x//self._w, ",", y//self._w, ") ", i, j)
             print("")
         return poistettavat_polut
 
     def etsi_reitti(self, visited):
+
+        """ Etsii parametrina annetun labyrintin läpi kulkevan reitin hyödyntämällä metodeja test_lukumäärät
+            ja test_umpikujien_pituudet. Poistaa labyrintista kaikki umpikujat.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+        Returns:
+            new_visited: sanakirjamuodossa oleva labyrintin läpi kulkeva reitti; labyrintista on poistettu
+            reittiin kuulumattomat ruudut.
+        """
+
         new_visited = visited
         umpikujien_lkm = self.test_lukumaarat(new_visited, ".")
         counter = umpikujien_lkm
@@ -219,13 +294,26 @@ class Comparison():
         return new_visited
 
     def piirra_reitti(self, visited):
+
+        """ Muuttaa labyrintin ensimmäisen ruudun alkuruuduksi ja viimeisen ruudun loppuruuduksi
+            muuttamalla alkuruudun vasemman seinän ja loppuruudun oikean seinän avoimeksi, jotta
+            näitä ei lasketa umpikujiksi. Etsii parametrina annetun labyrintin läpi kulkevan reitin
+            hyödyntämällä metodia etsi_reitti antamalla sille parametrina muokatun labyrintin. Piirtää
+            reitin labyrintin läpi ruutu kerrallaan konfiguraatiotiedostossa config.py määritellyllä
+            värillä. Tulostaa komentoruudulle reitin alku- ja loppuruudun koordinaatit ja reitin pituuden ja
+            kuljetun reitin koordinaatit listana.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+        """
+
         new_visited = visited
         reitti = []
         a, b, c, d = new_visited[(self._w, self._w)]
         new_visited[(self._w, self._w)] = (0, b, c, d)
         n = len(new_visited)
-        x = (n // self._y_max) * self._w
-        y = (n // self._y_max) * self._w
+        x = self._x_max * self._w
+        y = self._y_max * self._w
         a, b, c, d = new_visited[(x, y)]
         new_visited[(x, y)] = (a, 0, c, d)
         new_visited = self.etsi_reitti(new_visited)
@@ -235,11 +323,24 @@ class Comparison():
             self._maze.single_cell(x, y)
             time.sleep(Config.RATKAISU)
         print("labyrintin läpi ruudusta 1 , 1 ruutuun", self._x_max, ",", self._y_max,
-        "kulkevan reitin pituus on", len(reitti), "ruutua:")
+              "kulkevan reitin pituus on", len(reitti), "ruutua:")
         print(reitti)
         print("")
 
     def mittaa_pituudet(self, visited):
+
+        """ Etsii parametrina annetun labyrintin käytävät yksi kerrallaan annetussa järjestyksessä ja mittaa
+            kunkin käytävän pituuden ja mutkien lukumäärät. Palauttaa käytävien pituudet ja lukumäärät ja
+            mutkien lukumäärät.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+        Returns:
+            kaytavat: sanakirjamuodossa oleva lista annetun labyrintin käytävien pituuksista ja lukumääristä
+            (pituus = lukumäärä),
+            mutkat: annetussa labyrintissa olevien mutkien lukumäärä
+        """
+
         new_visited = visited
         mutkat = 0
         kaytavat = {}
@@ -264,12 +365,25 @@ class Comparison():
         return kaytavat, mutkat
 
     def test_kaytavien_pituudet(self, visited, tulostus):
+
+        """ Etsii parametrina annetun labyrintin käytävät yksi kerrallaan annetussa järjestyksessä ja mittaa
+            kunkin pysty- ja vaakasuoran käytävän pituuden ja mutkien lukumäärät. Tulostaa komentoruudulle
+            pysty- ja vaakasuorien käytävien pituudet ja lukumäärät. Tulostaa lopuksi mutkien lukumäärän,
+            mikäli annettu tulostusparametri on string "k". Käyttää pystysuorien käytävien mittaamiseen
+            apumetodia mittaa_pituudet.
+
+        Args:
+            visited: sanakirjamuodossa oleva labyrintti.
+            tulostus: mikäli annettu string = "k", umpikujien lukumäärä tulostetaan komentoruudulle.
+            Käyttäjävalikko antaa parametrin automaattisesti, valinta ei näy käyttäjälle.
+        """
+
         new_visited = visited
         mutkat = 0
         pystysuora = self.jarjesta_ruudut_pystysuora(new_visited)
         kaytavat, mutkat = self.mittaa_pituudet(pystysuora)
         print("pystysuorien käytävien lukumäärät:")
-        sorted_kaytavat = sorted(kaytavat.items(), key = lambda item: item[0])
+        sorted_kaytavat = sorted(kaytavat.items(), key=lambda item: item[0])
         for each in sorted_kaytavat:
             pituus, lkm = each
             print("pituus:", pituus, ":", lkm, "kpl")
@@ -298,7 +412,7 @@ class Comparison():
             mutkat += value
         mutkat -= 1
         print("vaakasuorien käytävien lukumäärät:")
-        sorted_kaytavat = sorted(kaytavat.items(), key = lambda item: item[0])
+        sorted_kaytavat = sorted(kaytavat.items(), key=lambda item: item[0])
         for each in sorted_kaytavat:
             pituus, lkm = each
             print("pituus:", pituus, ":", lkm, "kpl")
@@ -308,4 +422,11 @@ class Comparison():
         print("")
 
     def get_algoritmi(self):
+
+        """ Testauksessa käytetty metodi, joka palauttaa algoritmin.
+
+        Returns:
+            käytetyn algoritmin oliomuodossa.
+        """
+
         return self._algoritmi
