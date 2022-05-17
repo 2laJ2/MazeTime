@@ -47,9 +47,9 @@ Näistä en tehnyt kuvaajia, koska määrät ja pituudet kasvoivat tasaisesti su
 
 Ajojen tekemiseen, tietojen taulukointiin ja kuvaajien tekemiseen ja alustavien johtopäätösten tekoon kului noin 5,5 tuntia.
 
-Seuraavaksi päivitän testausdokumentin ja lisään siihen graafisen esityksen yksikkö- ja vertailevan testauksen osalta.
+Päivitin testausdokumentin, lisäsin siihen kuvaajat vertailevan testauksen osalta ja tiedot yksikkötestauksen osalta sekä kirjoitin käyttöohjeen. Tähän kului noin 2 tuntia.
 
-Lopuksi kirjoitan käyttöohjeen.
+Tällä viikolla työaikaa on kulunut yhteensä noin 32,5 tuntia.
 
-Tällä viikolla työaikaa on kulunut yhteensä noin 22 tuntia.
+Koko harjoitustyöhön on kulunut yhteensä noin 140,5 tuntia.
 

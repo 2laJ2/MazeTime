@@ -10,7 +10,7 @@ Pyrin refraktoimaan koodia siten, että Maze-luokalla on konstruktori, joka luo 
 
 Refraktorointiin, taustamateriaalien etsintään ja kahden apumetodeja testaavan testin tekemiseen kului 5 tuntia.
 
-Testausdokumentin ja viikkoraportin päivittämiseen kului noin puoli tuntia. 
+Testausdokumentin ja viikkoraportin päivittämiseen kului noin 0,5 tuntia. 
 
 Kirjoitin alustavan toteutuksen Growing Tree -algoritmille viidelle eri toteutustavalle. Algoritmin kuvaus löytyy [_täältä_]((http://www.astrolog.org/labyrnth/algrithm.htm)). Metodi on vielä hieman keskeneräinen. Kaikki viisi erilaista toteutustapaa toimivat erikseen, mutta toistaiseksi ei ole mahdollista valita niistä kuin yksi, eli se jota ei ole kommentoitu pois. Huolimatta siitä, minkä luvun 1-5 käyttäjä valitsee, ohjelma toistaa aina saman (sen, jota ei ole kommentoitu pois risuaidoilla). Metodin kirjoittamiseen on toistaiseksi mennessä kulunut 3 tuntia.
 
