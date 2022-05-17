@@ -1,7 +1,7 @@
 class Config:
     # set up pygame window
-    WIDTH = 500# 500 for every 20 cells of width 20, max appr. 1820
-    HEIGHT = 600# 600 for every 20 cells of width 20, max appr. 980
+    WIDTH = 500 # 500 for every 20 cells of width 20, max appr. 1820
+    HEIGHT = 600 # 600 for every 20 cells of width 20, max appr. 980
     FPS = 30
 
     # define colours
@@ -26,9 +26,9 @@ class Config:
     solution = {}
 
     # values used with time function of the algorithms
-    ABMAZE = 0.000001 # 0.001
-    WILSON_MYSTEERI = 0.000001 # 0.05
-    RATKAISU = 0.000001 # 0.05
+    ABMAZE = 0.001 # 0.000001 large labyrinth
+    WILSON_MYSTEERI = 0.05 # 0.000001 large labyrinth
+    RATKAISU = 0.05 # 0.000001 large labyrinth
     NOLLA = 0.0
 
     # seed value used with creating mazes
