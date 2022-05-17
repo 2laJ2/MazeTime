@@ -38,7 +38,7 @@ Kirjasin kustakin ajosta taulukkoon kuvaajia varten seuraavat tiedot:
 * pystysuorien ruutujen lukumäärä
 * reitin pituus
 * reitillä olevien mutkien lukumäärä
-Tallensin tiedot pdf-muodossa tiedostoon MazeTime_Data.pdf ja tein kustakin vertailusta kuvaajan.
+Tallensin tiedot pdf-muodossa tiedostoon [MazeTime_Data.pdf](/dokumentaatio/MazeTime_Data.pdf) ja tein kustakin vertailusta kuvaajan.
 
 Kirjasin taulukkoon myös:
 * labyrintin vaaka- ja pystysuorien käytävien pituudet ja lukumäärät
@@ -47,9 +47,9 @@ Näistä en tehnyt kuvaajia, koska määrät ja pituudet kasvoivat tasaisesti su
 
 Ajojen tekemiseen, tietojen taulukointiin ja kuvaajien tekemiseen ja alustavien johtopäätösten tekoon kului noin 5,5 tuntia.
 
-Päivitin testausdokumentin, lisäsin siihen kuvaajat vertailevan testauksen osalta ja tiedot yksikkötestauksen osalta sekä kirjoitin käyttöohjeen. Tähän kului noin 2 tuntia.
+Päivitin testausdokumentin, lisäsin siihen kuvaajat vertailevan testauksen osalta ja tiedot yksikkötestauksen osalta sekä kirjoitin käyttöohjeen. Lisäsin toteutusdokumenttiin työssä olevat puutteet ja parannusehdotuksia. Tähän kului yhteensä noin 3,5 tuntia.
 
-Tällä viikolla työaikaa on kulunut yhteensä noin 32,5 tuntia.
+Tällä viikolla työaikaa on kulunut yhteensä noin 34 tuntia.
 
-Koko harjoitustyöhön on kulunut yhteensä noin 140,5 tuntia.
+Koko harjoitustyöhön on kulunut yhteensä noin 142 tuntia.
 

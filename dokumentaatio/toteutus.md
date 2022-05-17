@@ -220,6 +220,10 @@ Konstruktori: Comparison(algoritmiolio)
 12. get_algoritmi
 * metodi, joka palauttaa Comparison-oliolle annetun algoritmiolion
 
+## Työssä olevat puutteet ja parannusehdotukset
+
+Ohjelma soveltuu pienehköjen labyrinttien rakentamiseen ja visualisointiin. Mikäli halutaan rakentaa isompia labyrintteja, ohjelman rakennetta tulee parantaa ja toimintaa tehostaa. Vertailevat testit suorittavan _comparison.py_-luokan rakenne on keskeneräinen, minkä vuoksi luokkaa ei ole toistaiseksi yksikkötestattu. Luokan toiminnan oikeellisuus on empiirisesti todennettavissa visualisoinnin avulla. Ohjelmaa voisi parantaa paitsi _comparison.py_-luokan rakenteen refraktoroinnilla ja yksikkötestauksella, myös muuttamalla ohjelman toimintaa siten, että ohjelma rakentaisi ensin labyrintin, minkä _jälkeen_ käyttäjä voisi halutessaan valita visualisoinnin näytölle. Tällöin sen sijaan, että Maze-olio syötetään algoritmille, syötettäisiin algoritmiolio Maze-oliolle, jolloin ohjelmalla olisi mielekästä sekä mitata algoritmiin kuluvaa aikaa että rakentaa suurempia labyrintteja. Tällöin ohjelman olisi hyvä tallentaa kunkin ajon tiedot automaattisesti joko tekstitiedostoon tai tietokantataulukkoon.
+
 ## Lähteet
 
 - [Video: Python Maxe Generator Program, Davis MT](https://www.youtube.com/watch?v=Xthh4SEMA2o)
